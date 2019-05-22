@@ -55,10 +55,16 @@ public class HbaseClient {
         }
         return new String(resultValue);
     }
-    public static void putData(String tablename, String rowkey, String famliyname,String colum,String data) throws Exception {
+    public static void putData(String tablename, String rowkey, String famliyname,String column,String data) throws Exception {
         Table table = conn.getTable(TableName.valueOf(tablename));
         Put put = new Put(rowkey.getBytes());
-        put.addColumn(famliyname.getBytes(),colum.getBytes(),data.getBytes());
+        put.addColumn(famliyname.getBytes(),column.getBytes(),data.getBytes());
         table.put(put);
+    }
+
+    public static void increamColumn(String tablename, String rowkey, String famliyname,String column) throws Exception {
+        String val = getData(tablename, rowkey, famliyname, column);
+        int res = Integer.valueOf(val) + 1;
+        putData(tablename, rowkey, famliyname, column, String.valueOf(res));
     }
 }

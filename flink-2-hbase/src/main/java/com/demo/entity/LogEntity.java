@@ -1,5 +1,8 @@
 package com.demo.entity;
 
+/**
+ * @author XINZE
+ */
 public class LogEntity {
 
     private int userId;
