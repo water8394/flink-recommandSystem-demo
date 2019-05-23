@@ -64,7 +64,10 @@ public class HbaseClient {
 
     public static void increamColumn(String tablename, String rowkey, String famliyname,String column) throws Exception {
         String val = getData(tablename, rowkey, famliyname, column);
-        int res = Integer.valueOf(val) + 1;
+        int res = 1;
+        if (val != null) {
+            res = Integer.valueOf(val) + 1;
+        }
         putData(tablename, rowkey, famliyname, column, String.valueOf(res));
     }
 }

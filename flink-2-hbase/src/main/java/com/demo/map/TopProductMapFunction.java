@@ -9,6 +9,7 @@ import org.apache.flink.api.common.functions.MapFunction;
  * @author XINZE
  */
 public class TopProductMapFunction implements MapFunction<String, TopProductEntity> {
+    @Override
     public TopProductEntity map(String s) throws Exception {
         LogEntity log = LogToEntity.getLog(s);
         TopProductEntity topProductEntity = new TopProductEntity();
