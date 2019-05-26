@@ -18,8 +18,8 @@ public class HbaseClient {
         Configuration conf = HBaseConfiguration.create();
         conf.set("hbase.rootdir", "hdfs://192.168.0.100:9000/hbase");
         conf.set("hbase.zookeeper.quorum", "192.168.0.100");
-        conf.set("hbase.client.scanner.timeout.period", "50000");
-        conf.set("hbase.rpc.timeout", "50000");
+        conf.set("hbase.client.scanner.timeout.period", "1000");
+        conf.set("hbase.rpc.timeout", "1000");
         try {
             conn = ConnectionFactory.createConnection(conf);
             admin = conn.getAdmin();
