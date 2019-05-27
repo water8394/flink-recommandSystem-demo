@@ -30,3 +30,8 @@
 
 <img src="resources/pic/v1.0用户推荐流程.png" width="80%" height="100%">
 
+- ### 下一步工作
+
+  1. 基于UserCF/ItemCF进行推行
+  2. 统计召回率/准确率等业务指标
+
