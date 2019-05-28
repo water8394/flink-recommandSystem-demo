@@ -20,14 +20,21 @@ public class MysqlClient {
         }
     }
 
+    /**
+     * 根据Id筛选产品
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet selectById(int id) throws SQLException {
         String sql = String.format("select  * from product where product_id = %s",id);
-        ResultSet resultSet = stmt.executeQuery(sql);
-        return resultSet;
-
+        return stmt.executeQuery(sql);
     }
 
-    public static void main(String[] args) throws SQLException {
-        MysqlClient client = new MysqlClient();
+
+    public static ResultSet selectUserById(int id) throws SQLException{
+        String sql = String.format("select  * from user where user_id = %s",id);
+        return stmt.executeQuery(sql);
     }
+
 }
