@@ -43,7 +43,15 @@ public class HbaseClient {
         }
     }
 
-
+    /**
+     * 获取一列获取一行数据
+     * @param tableName
+     * @param rowKey
+     * @param famliyName
+     * @param column
+     * @return
+     * @throws IOException
+     */
     public static String getData(String tableName, String rowKey, String famliyName, String column) throws IOException {
         Table table = conn.getTable(TableName.valueOf(tableName));
         byte[] row = Bytes.toBytes(rowKey);
@@ -55,6 +63,8 @@ public class HbaseClient {
         }
         return new String(resultValue);
     }
+
+
     public static void putData(String tablename, String rowkey, String famliyname,String column,String data) throws Exception {
         Table table = conn.getTable(TableName.valueOf(tablename));
         Put put = new Put(rowkey.getBytes());
@@ -70,4 +80,6 @@ public class HbaseClient {
         }
         putData(tablename, rowkey, famliyname, column, String.valueOf(res));
     }
+
+
 }

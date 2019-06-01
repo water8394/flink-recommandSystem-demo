@@ -19,6 +19,11 @@ import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 
 import java.util.Properties;
 
+/**
+ * 热门商品 -> redis
+ *
+ * @author XINZE
+ */
 public class TopProductTask {
     public static void main(String[] args) throws Exception {
 

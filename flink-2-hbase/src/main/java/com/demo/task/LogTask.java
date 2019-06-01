@@ -9,6 +9,11 @@ import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 
 import java.util.Properties;
 
+/**
+ * 日志 -> Hbase
+ *
+ * @author XINZE
+ */
 public class LogTask {
 
     public static void main(String[] args) throws Exception {
