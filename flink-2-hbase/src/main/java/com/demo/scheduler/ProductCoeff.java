@@ -30,7 +30,7 @@ public class ProductCoeff {
         for (String proId: others) {
             ProductPortraitEntity entity = sigleProduct(proId);
             Double score = getScore(product, entity);
-            HbaseClient.putData("ps",id, "pro",proId,score.toString());
+            HbaseClient.putData("ps",id, "p",proId,score.toString());
         }
     }
 
