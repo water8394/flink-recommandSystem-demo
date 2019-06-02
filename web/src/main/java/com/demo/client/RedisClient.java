@@ -15,7 +15,12 @@ public class RedisClient {
 
     @Autowired
     private ProductService productService;
+
+
     private static RedisClient redisClient;
+
+
+
     @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
     public void init() {
         redisClient = this;
