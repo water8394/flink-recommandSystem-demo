@@ -10,6 +10,7 @@ import org.apache.flink.api.common.functions.MapFunction;
  */
 public class LogMapFunction implements MapFunction<String, LogEntity> {
 
+    @Override
     public LogEntity map(String s) throws Exception {
 
         LogEntity log = LogToEntity.getLog(s);
