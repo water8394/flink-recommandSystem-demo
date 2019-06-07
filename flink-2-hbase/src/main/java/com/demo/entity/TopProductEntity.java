@@ -8,6 +8,16 @@ public class TopProductEntity {
     private int productId;
     private int actionTimes;
 
+    private String rankName;
+
+    public String getRankName() {
+        return rankName;
+    }
+
+    public void setRankName(String rankName) {
+        this.rankName = rankName;
+    }
+
     public int getProductId() {
         return productId;
     }
