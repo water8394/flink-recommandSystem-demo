@@ -1,0 +1,8 @@
+事实表 hbase
+userId, projectId, timestamp, action
+用户表 mysql
+userid, username, sex, age, registertime
+产品表 mysql
+projectid,color,diameter,style,Material,country
+用户兴趣表 
+userid,country,color,style
