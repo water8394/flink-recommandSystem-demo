@@ -6,6 +6,7 @@ import com.demo.reduce.TopPruductReduceFunction;
 import com.demo.sink.TopNRedisSink;
 import com.demo.top.WindowFunction;
 import com.demo.util.Property;
+import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -28,6 +29,8 @@ public class TopProductTask {
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        // 开启EventTime
+        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder().setHost("192.168.0.100").build();
         Properties properties = Property.getKafkaProperties("topProuct");
         DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));

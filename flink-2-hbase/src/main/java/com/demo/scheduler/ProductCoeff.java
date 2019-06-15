@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 基于产品标签的产品相关度计算
+ * @author XINZE
+ */
 public class ProductCoeff {
 
     private RedisClient redis = new RedisClient();
