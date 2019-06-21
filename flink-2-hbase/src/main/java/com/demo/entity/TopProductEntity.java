@@ -7,11 +7,19 @@ public class TopProductEntity {
 
     private int productId;
     private int actionTimes;
-
+    private long timeStamp;
     private String rankName;
 
     public String getRankName() {
         return rankName;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public void setRankName(String rankName) {

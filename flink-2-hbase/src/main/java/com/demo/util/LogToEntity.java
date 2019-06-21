@@ -17,7 +17,7 @@ public class LogToEntity {
         LogEntity log = new LogEntity();
         log.setUserId(Integer.parseInt(values[0]));
         log.setProductId(Integer.parseInt(values[1]));
-        log.setTime(values[2]);
+        log.setTime(new Long(values[2]));
         log.setAction(values[3]);
 
         return log;
