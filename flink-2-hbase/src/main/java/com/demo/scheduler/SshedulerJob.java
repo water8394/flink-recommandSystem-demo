@@ -16,7 +16,7 @@ public class SshedulerJob {
      *
      * 策略2 ： 基于产品标签 计算产品的余弦相似度
      *
-     *     w = sqrt(  pow((tag{i,a} - tag{j,a}),2)  + pow((tag{i,b} - tag{j,b}),2)      )
+     *     w = sqrt( pow((tag{i,a} - tag{j,a}),2)  + pow((tag{i,b} - tag{j,b}),2) )
      *
      * @param args
      */
