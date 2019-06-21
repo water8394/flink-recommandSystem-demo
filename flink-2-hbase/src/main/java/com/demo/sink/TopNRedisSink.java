@@ -7,21 +7,20 @@ import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;
 
 public class TopNRedisSink implements RedisMapper<TopProductEntity> {
 
-    private String rankName = "000";
 
     @Override
     public RedisCommandDescription getCommandDescription() {
-        return new RedisCommandDescription(RedisCommand.ZADD, rankName);
+        return new RedisCommandDescription(RedisCommand.LPUSH, "topN");
     }
 
     @Override
-    public String getKeyFromData(TopProductEntity topProductEntity) {
+    public String getKeyFromData(TopProductEntity s) {
 
-        return String.valueOf(topProductEntity.getProductId());
+        return String.valueOf(s.getWindowEnd());
     }
 
     @Override
-    public String getValueFromData(TopProductEntity topProductEntity) {
-        return String.valueOf(topProductEntity.getActionTimes());
+    public String getValueFromData(TopProductEntity s) {
+        return String.valueOf(s.getProductId());
     }
 }

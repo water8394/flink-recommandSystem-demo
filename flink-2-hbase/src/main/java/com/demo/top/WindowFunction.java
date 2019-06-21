@@ -14,8 +14,7 @@ public class WindowFunction extends
 
         String now = new Date().toString();
 
-        for (TopProductEntity topProductEntity:
-                iterable) {
+        for (TopProductEntity topProductEntity: iterable) {
             topProductEntity.setRankName(now);
             collector.collect(topProductEntity);
         }

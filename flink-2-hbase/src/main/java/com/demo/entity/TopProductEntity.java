@@ -7,19 +7,28 @@ public class TopProductEntity {
 
     private int productId;
     private int actionTimes;
-    private long timeStamp;
+    private long windowEnd;
     private String rankName;
+
+    public static TopProductEntity of(Long itemId, long end, Long count) {
+        TopProductEntity res = new TopProductEntity();
+        res.setActionTimes(count.intValue());
+        res.setProductId(itemId.intValue());
+        res.setWindowEnd(end);
+        res.setRankName(String.valueOf(end));
+        return res;
+    }
 
     public String getRankName() {
         return rankName;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getWindowEnd() {
+        return windowEnd;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setWindowEnd(long windowEnd) {
+        this.windowEnd = windowEnd;
     }
 
     public void setRankName(String rankName) {
