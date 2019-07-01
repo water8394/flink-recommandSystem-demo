@@ -19,6 +19,7 @@ public class UserPortraitMapFunction implements MapFunction<String, String> {
         if (rst != null){
             while (rst.next()){
                 String userId = String.valueOf(log.getUserId());
+
                 String country = rst.getString("country");
                 HbaseClient.increamColumn("user",userId,"country",country);
                 String color = rst.getString("color");
