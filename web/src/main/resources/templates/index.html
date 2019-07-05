@@ -12,7 +12,7 @@
 <body>
 
     <ul th:each="pro : ${topProduct}">
-        <li><text th:text="pro.productId"></text> -> <text th:text="pro.productName"></text></li>
+        <li><text th:text="${pro.productId}"></text> -> <text th:text="${pro.productName}"></text></li>
     </ul>
 </body>
 

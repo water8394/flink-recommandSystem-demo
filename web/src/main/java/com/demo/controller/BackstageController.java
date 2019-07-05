@@ -24,12 +24,12 @@ public class BackstageController {
      * 获取后台数据
      * @return json
      */
-    @GetMapping
+    @GetMapping("/index")
     public String getBackStage(Model model){
         List<String> topList = redisClient.getTopList(topSize);
+        System.out.println(topList);
         List<ProductEntity> topProduct = productService.selectByIds(topList);
         model.addAttribute("topProduct", topProduct);
         return "index";
     }
-
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 public class RedisClient {
-    private Jedis jedis = new Jedis("192.168.0.100", 6379);
+    private Jedis jedis = new Jedis("192.168.124.110", 6379);
 
     @Autowired
     private ProductService productService;
