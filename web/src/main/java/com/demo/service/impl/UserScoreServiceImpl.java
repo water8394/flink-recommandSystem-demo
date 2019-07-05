@@ -2,9 +2,9 @@ package com.demo.service.impl;
 
 import com.demo.client.HbaseClient;
 import com.demo.client.RedisClient;
-import com.demo.entity.ProductEntity;
-import com.demo.entity.ProductScoreEntity;
-import com.demo.entity.UserScoreEntity;
+import com.demo.domain.ProductEntity;
+import com.demo.domain.ProductScoreEntity;
+import com.demo.domain.UserScoreEntity;
 import com.demo.service.ProductService;
 import com.demo.service.UserScoreService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,28 +1,35 @@
 package com.demo.controller;
 
 import com.demo.client.RedisClient;
-import com.demo.util.Result;
-import com.demo.util.ResultUtils;
+import com.demo.domain.ProductEntity;
+import com.demo.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class BackstageController {
 
     private RedisClient redisClient = new RedisClient();
 
     private int topSize = 10;
 
+    @Autowired
+    ProductService productService;
+
     /**
-     * 获取redis中存取的top榜单
+     * 获取后台数据
      * @return json
      */
     @GetMapping
-    public Result topProduct(){
+    public String getBackStage(Model model){
         List<String> topList = redisClient.getTopList(topSize);
-        return ResultUtils.success(topList);
+        List<ProductEntity> topProduct = productService.selectByIds(topList);
+        model.addAttribute("topProduct", topProduct);
+        return "index";
     }
 
 }

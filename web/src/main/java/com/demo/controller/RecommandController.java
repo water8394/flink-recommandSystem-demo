@@ -1,6 +1,6 @@
 package com.demo.controller;
 
-import com.demo.entity.ProductScoreEntity;
+import com.demo.domain.ProductScoreEntity;
 import com.demo.service.RecommandService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

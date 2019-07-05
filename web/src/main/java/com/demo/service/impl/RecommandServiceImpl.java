@@ -1,8 +1,8 @@
 package com.demo.service.impl;
 
 import com.demo.client.HbaseClient;
-import com.demo.entity.ProductEntity;
-import com.demo.entity.ProductScoreEntity;
+import com.demo.domain.ProductEntity;
+import com.demo.domain.ProductScoreEntity;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;

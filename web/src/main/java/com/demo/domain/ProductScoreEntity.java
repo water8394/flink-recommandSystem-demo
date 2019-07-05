@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.demo.domain;
 
 public class ProductScoreEntity {
     private ProductEntity product;

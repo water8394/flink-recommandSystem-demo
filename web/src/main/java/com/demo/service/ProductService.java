@@ -1,6 +1,8 @@
 package com.demo.service;
 
-import com.demo.entity.ProductEntity;
+import com.demo.domain.ProductEntity;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -9,5 +11,12 @@ public interface ProductService {
      * @param id
      * @return
      */
-    public ProductEntity selectById(String id);
+    ProductEntity selectById(String id);
+
+    /**
+     * 根据id列表筛选产品
+     * @param ids
+     * @return
+     */
+    List<ProductEntity> selectByIds(List<String> ids);
 }

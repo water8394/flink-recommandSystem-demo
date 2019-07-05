@@ -1,12 +1,15 @@
 package com.demo.dao;
 
-import com.demo.entity.ProductEntity;
-import org.springframework.stereotype.Component;
+import com.demo.domain.ProductEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-@Component
 public interface ProductDao {
 
-    public ProductEntity selectById(int id);
+    ProductEntity selectById(@Param("id") int id);
+
+    List<ProductEntity> selectByIds(@Param("ids") List<String> ids);
 }

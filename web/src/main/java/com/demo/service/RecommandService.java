@@ -1,6 +1,6 @@
 package com.demo.service;
 
-import com.demo.entity.ProductScoreEntity;
+import com.demo.domain.ProductScoreEntity;
 
 import java.io.IOException;
 import java.util.List;

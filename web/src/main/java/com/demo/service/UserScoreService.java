@@ -1,8 +1,8 @@
 package com.demo.service;
 
-import com.demo.entity.ProductEntity;
-import com.demo.entity.ProductScoreEntity;
-import com.demo.entity.UserScoreEntity;
+import com.demo.domain.ProductEntity;
+import com.demo.domain.ProductScoreEntity;
+import com.demo.domain.UserScoreEntity;
 import java.util.List;
 import java.io.IOException;
 
