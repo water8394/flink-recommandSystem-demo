@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.demo.domain;
 
 /**
  * @author XINZE

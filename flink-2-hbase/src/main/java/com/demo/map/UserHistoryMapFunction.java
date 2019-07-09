@@ -1,7 +1,7 @@
 package com.demo.map;
 
 import com.demo.client.HbaseClient;
-import com.demo.entity.LogEntity;
+import com.demo.domain.LogEntity;
 import com.demo.util.LogToEntity;
 import org.apache.flink.api.common.functions.MapFunction;
 

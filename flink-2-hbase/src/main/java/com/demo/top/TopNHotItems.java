@@ -1,6 +1,6 @@
 package com.demo.top;
 
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.TopProductEntity;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple;

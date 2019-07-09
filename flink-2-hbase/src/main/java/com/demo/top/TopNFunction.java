@@ -1,7 +1,7 @@
 package com.demo.top;
 
-import com.demo.entity.RankProductEntity;
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.RankProductEntity;
+import com.demo.domain.TopProductEntity;
 import org.apache.flink.streaming.api.functions.windowing.ProcessAllWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;

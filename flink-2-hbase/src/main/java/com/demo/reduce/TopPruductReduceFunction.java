@@ -1,6 +1,6 @@
 package com.demo.reduce;
 
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.TopProductEntity;
 import org.apache.flink.api.common.functions.ReduceFunction;
 
 /**

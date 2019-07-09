@@ -1,8 +1,8 @@
 package com.demo.task;
 
 import com.demo.agg.CountAgg;
-import com.demo.entity.LogEntity;
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.LogEntity;
+import com.demo.domain.TopProductEntity;
 import com.demo.map.TopProductMapFunction;
 import com.demo.sink.TopNRedisSink;
 import com.demo.top.TopNHotItems;
@@ -41,7 +41,9 @@ public class TopProductTask {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 开启EventTime
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+
         FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder().setHost("192.168.0.100").build();
+
         Properties properties = Property.getKafkaProperties("topProuct");
         DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));
         List<String> top = new ArrayList<>();

@@ -2,7 +2,7 @@
 package com.demo.map;
 
 import com.demo.client.HbaseClient;
-import com.demo.entity.LogEntity;
+import com.demo.domain.LogEntity;
 import org.apache.flink.api.common.time.Time;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.state.StateTtlConfig;
@@ -45,7 +45,7 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         }
         saveToHBase(logEntity, times);
 
-        // 如果用户的操作为3(收藏),则清除这个key的state
+        // 如果用户的操作为3(购物),则清除这个key的state
         if (actionThisTime.getType().equals("3")){
             state.clear();
         }

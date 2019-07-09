@@ -1,6 +1,6 @@
 package com.demo.window;
 
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.TopProductEntity;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;

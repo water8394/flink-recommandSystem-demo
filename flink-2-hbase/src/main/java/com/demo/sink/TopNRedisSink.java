@@ -1,6 +1,6 @@
 package com.demo.sink;
 
-import com.demo.entity.TopProductEntity;
+import com.demo.domain.TopProductEntity;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommand;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommandDescription;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;

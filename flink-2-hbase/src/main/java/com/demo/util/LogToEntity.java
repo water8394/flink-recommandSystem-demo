@@ -1,6 +1,6 @@
 package com.demo.util;
 
-import com.demo.entity.LogEntity;
+import com.demo.domain.LogEntity;
 
 /**
  * @author XINZE

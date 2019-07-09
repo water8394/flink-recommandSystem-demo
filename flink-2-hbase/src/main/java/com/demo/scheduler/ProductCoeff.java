@@ -3,7 +3,7 @@ package com.demo.scheduler;
 import com.demo.client.HbaseClient;
 import com.demo.client.MysqlClient;
 import com.demo.client.RedisClient;
-import com.demo.entity.ProductPortraitEntity;
+import com.demo.domain.ProductPortraitEntity;
 import com.demo.util.Constants;
 
 import java.io.IOException;
