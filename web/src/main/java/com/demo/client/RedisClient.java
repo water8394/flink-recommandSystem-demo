@@ -25,10 +25,20 @@ public class RedisClient {
         redisClient.productService = this.productService;
     }
 
+    /**
+     * 获取redis数据
+     * @param key
+     * @return
+     */
     private String getData(String key){
         return jedis.get(key);
     }
 
+    /**
+     * 获取 top 榜单
+     * @param topRange
+     * @return
+     */
     public List<String> getTopList(int topRange){
         List<String> res = new ArrayList<>();
 
@@ -38,7 +48,19 @@ public class RedisClient {
         return res;
     }
 
+    /**
+     * 获取1小时内接入量数据
+     * @return
+     */
+    public String getMeter(){
+        return getData("meter");
+    }
 
+
+    /**
+     * 测试方法
+     * @param args
+     */
     public static void main(String[] args) {
         RedisClient client = new RedisClient();
 

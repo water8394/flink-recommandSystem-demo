@@ -7,13 +7,73 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.js"></script>
 </head>
-
 <body>
+<div class="container">
+    <div class="row">
 
-    <ul th:each="pro : ${topProduct}">
-        <li><text th:text="${pro.productId}"></text> -> <text th:text="${pro.productName}"></text></li>
-    </ul>
+        <div class="col-sm-4" style="margin-top: 50px">
+
+            <ul th:each="pro : ${topProduct}" >
+                <li>
+                    <text th:text="${pro.productId}"></text>
+                    ->
+                    <text th:text="${pro.productName}"></text>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="col-sm-4">
+            <div id="meter" style="width: 500px;height: 400px;"></div>
+        </div>
+
+    </div>
+
+</div>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        var myChart = echarts.init(document.getElementById('meter'));
+        $.ajax({
+                type: "get",
+                url: "/meter",
+                dataType: "json",        //返回数据形式为json
+                success: function (result) {
+                    //请求成功时执行该函数内容，result即为服务器返回的json对]象
+                    if (result) {
+                        var value = result["data"];
+                        myChart.setOption({
+                            tooltip : {
+                                formatter: "{a} <br/>{b} : {c}"
+                            },
+                            toolbox: {
+                                feature: {
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            series: [
+                                {
+                                    name: '业务指标',
+                                    type: 'gauge',
+                                    detail: {formatter:'{value}'},
+                                    data: [{value: value, name: '1小时内日志量接入量'}]
+                                }
+                            ]
+                        });
+                    }
+                },
+                error: function (errorMsg) {
+                    //请求失败时执行该函数
+                    alert("图表请求数据失败!");
+                    myChart.hideLoading();
+                }
+            }
+        )
+    });
+</script>
 </body>
 
 </html>
