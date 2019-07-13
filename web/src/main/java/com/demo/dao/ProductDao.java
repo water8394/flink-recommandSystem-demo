@@ -1,5 +1,6 @@
 package com.demo.dao;
 
+import com.demo.domain.ContactEntity;
 import com.demo.domain.ProductEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,5 @@ public interface ProductDao {
 
     ProductEntity selectById(@Param("id") int id);
 
-    List<ProductEntity> selectByIds(@Param("ids") List<String> ids);
+    List<ContactEntity> selectByIds(@Param("ids") List<String> ids);
 }

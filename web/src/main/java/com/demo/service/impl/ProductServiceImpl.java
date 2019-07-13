@@ -1,6 +1,7 @@
 package com.demo.service.impl;
 
 import com.demo.dao.ProductDao;
+import com.demo.domain.ContactEntity;
 import com.demo.domain.ProductEntity;
 import com.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> selectByIds(List<String> ids) {
+    public List<ContactEntity> selectByIds(List<String> ids) {
         return productDao.selectByIds(ids);
     }
 }

@@ -14,13 +14,17 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-sm-4" style="margin-top: 50px">
+        <div class="col-sm-6" style="margin-top: 50px">
 
             <ul th:each="pro : ${topProduct}" >
                 <li>
-                    <text th:text="${pro.productId}"></text>
+                    <text th:text="${pro.id}"></text>
                     ->
-                    <text th:text="${pro.productName}"></text>
+                    <text th:text="${pro.itemName}"></text>
+                    ->
+                    <text th:text="${pro.brandName}"></text>
+                    <img  style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
+
                 </li>
             </ul>
 

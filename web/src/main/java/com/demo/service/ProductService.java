@@ -1,5 +1,6 @@
 package com.demo.service;
 
+import com.demo.domain.ContactEntity;
 import com.demo.domain.ProductEntity;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface ProductService {
      * @param ids
      * @return
      */
-    List<ProductEntity> selectByIds(List<String> ids);
+    List<ContactEntity> selectByIds(List<String> ids);
 }

@@ -3,9 +3,9 @@
 <mapper namespace="com.demo.dao.ProductDao">
 
 
-    <select id="selectByIds" resultType="com.demo.domain.ProductEntity">
-        select * from product
-        WHERE product_id IN
+    <select id="selectByIds" resultType="com.demo.domain.ContactEntity">
+        select * from contact
+        WHERE id IN
         <foreach collection="ids" index="index" item="item"
                  open="(" separator="," close=")">
             #{item}

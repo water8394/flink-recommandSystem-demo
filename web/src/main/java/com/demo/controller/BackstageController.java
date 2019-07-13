@@ -1,7 +1,7 @@
 package com.demo.controller;
 
 import com.demo.client.RedisClient;
-import com.demo.domain.ProductEntity;
+import com.demo.domain.ContactEntity;
 import com.demo.service.ProductService;
 import com.demo.util.Result;
 import com.demo.util.ResultUtils;
@@ -32,7 +32,7 @@ public class BackstageController {
         // 获取 top 榜单数据
         List<String> topList = redisClient.getTopList(topSize);
         System.out.println(topList);
-        List<ProductEntity> topProduct = productService.selectByIds(topList);
+        List<ContactEntity> topProduct = productService.selectByIds(topList);
         model.addAttribute("topProduct", topProduct);
         return "index";
     }
