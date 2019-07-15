@@ -13,32 +13,42 @@
 <body>
 <div class="container">
     <div class="row">
+        <!--热度榜-->
+        <div class="col-sm-6" style="margin-top: 50px;" >
+            <p1 style="font-size: 50px; margin-left: 250px; margin-bottom: 20px;color: crimson">热度榜</p1>
+                <!--<div class="row" style=" border: 3px solid #ff877c">-->
+            <!--<div class="container" style=" border: 3px solid #ff877c">-->
+                <div class="row" th:each="pro : ${topProduct}" style=" border: 3px solid #ffe9bf">
+                    <div class="col-sm-3">
+                        <img style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <text><strong>id:</strong></text>
+                            <text th:text="${pro.id}"></text>
+                            <text><strong>brand:</strong></text>
+                            <text th:text="${pro.brandName}"></text>
+                        </div>
+                        <div class="row">
+                            <text th:text="${pro.itemName}"></text>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="col-sm-6" style="margin-top: 50px">
-
-            <ul th:each="pro : ${topProduct}" >
-                <li>
-                    <img  style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
-                    <text th:text="${pro.id}"></text>
-                    ->
-                    <text th:text="${pro.itemName}"></text>
-                    ->
-                    <text th:text="${pro.brandName}"></text>
-
-                </li>
-            </ul>
-
+            <!--</div>-->
         </div>
-
+        <!--小时内实时日志量-->
         <div class="col-sm-4">
             <div id="meter" style="width: 500px;height: 400px;"></div>
         </div>
+    </div>
+
 
     </div>
 
 </div>
 <script th:inline="javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
         var myChart = echarts.init(document.getElementById('meter'));
         $.ajax({
                 type: "get",
@@ -49,7 +59,7 @@
                     if (result) {
                         var value = result["data"];
                         myChart.setOption({
-                            tooltip : {
+                            tooltip: {
                                 formatter: "{a} <br/>{b} : {c}"
                             },
                             toolbox: {
@@ -62,7 +72,7 @@
                                 {
                                     name: '业务指标',
                                     type: 'gauge',
-                                    detail: {formatter:'{value}'},
+                                    detail: {formatter: '{value}'},
                                     data: [{value: value, name: '1小时内日志量接入量'}]
                                 }
                             ]
