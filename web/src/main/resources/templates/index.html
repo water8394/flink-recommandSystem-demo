@@ -18,12 +18,12 @@
 
             <ul th:each="pro : ${topProduct}" >
                 <li>
+                    <img  style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
                     <text th:text="${pro.id}"></text>
                     ->
                     <text th:text="${pro.itemName}"></text>
                     ->
                     <text th:text="${pro.brandName}"></text>
-                    <img  style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
 
                 </li>
             </ul>
