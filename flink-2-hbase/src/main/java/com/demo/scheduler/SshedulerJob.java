@@ -9,14 +9,12 @@ public class SshedulerJob {
     /**
      * 每12小时定时调度一次 基于两个推荐策略的 产品评分计算
      * 策略1 ：协同过滤
-     *           abs( i ∩ j)
-     *      w = ——————————————
-     *           sqrt(i || j)
      *
+     *        数据写入Hbase表  px
      *
      * 策略2 ： 基于产品标签 计算产品的余弦相似度
      *
-     *     w = sqrt( pow((tag{i,a} - tag{j,a}),2)  + pow((tag{i,b} - tag{j,b}),2) )
+     *        数据写入Hbase表 ps
      *
      * @param args
      */

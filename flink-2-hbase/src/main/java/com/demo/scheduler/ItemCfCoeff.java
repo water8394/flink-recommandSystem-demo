@@ -9,6 +9,10 @@ import java.util.Map;
 
 /**
  * 基于协同过滤的产品相关度计算
+ * * 策略1 ：协同过滤
+ *      *           abs( i ∩ j)
+ *      *      w = ——————————————
+ *      *           sqrt(i || j)
  * @author XINZE
  */
 public class ItemCfCoeff {
