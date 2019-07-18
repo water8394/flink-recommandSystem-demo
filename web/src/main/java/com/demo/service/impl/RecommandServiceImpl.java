@@ -1,8 +1,10 @@
 package com.demo.service.impl;
 
 import com.demo.client.HbaseClient;
+import com.demo.client.RedisClient;
 import com.demo.domain.ProductEntity;
 import com.demo.domain.ProductScoreEntity;
+import com.demo.dto.ProductDto;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;
@@ -22,8 +24,10 @@ public class RecommandServiceImpl implements RecommandService {
     @Autowired
     ProductService productService;
 
+    private RedisClient redisClient = new RedisClient();
 
     private double BASE_SCORE = 0.5;
+    private int TOP_SIZE = 10;
 
     @Override
     public List<ProductScoreEntity> userRecommand(String userId) throws IOException {
@@ -59,4 +63,11 @@ public class RecommandServiceImpl implements RecommandService {
         return rst;
     }
 
+    @Override
+    public List<ProductDto> recommandByHotList() {
+
+        List<String> topList = redisClient.getTopList(TOP_SIZE);
+
+        return null;
+    }
 }

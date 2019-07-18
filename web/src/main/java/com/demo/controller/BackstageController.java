@@ -2,6 +2,7 @@ package com.demo.controller;
 
 import com.demo.client.RedisClient;
 import com.demo.domain.ContactEntity;
+import com.demo.service.ContactService;
 import com.demo.service.ProductService;
 import com.demo.util.Result;
 import com.demo.util.ResultUtils;
@@ -23,6 +24,9 @@ public class BackstageController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    ContactService contactService;
+
     /**
      * 获取后台数据
      * @return json
@@ -31,8 +35,8 @@ public class BackstageController {
     public String getBackStage(Model model){
         // 获取 top 榜单数据
         List<String> topList = redisClient.getTopList(topSize);
-        System.out.println(topList);
-        List<ContactEntity> topProduct = productService.selectByIds(topList);
+        //System.out.println(topList);
+        List<ContactEntity> topProduct = contactService.selectByIds(topList);
         model.addAttribute("topProduct", topProduct);
         return "index";
     }

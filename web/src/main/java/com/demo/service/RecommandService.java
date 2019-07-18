@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.domain.ProductScoreEntity;
+import com.demo.dto.ProductDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,5 +15,11 @@ public interface RecommandService {
      * @return
      * @throws IOException
      */
-    public List<ProductScoreEntity> userRecommand(String userId) throws IOException;
+    List<ProductScoreEntity> userRecommand(String userId) throws IOException;
+
+    /**
+     * 热度榜数据
+     */
+    List<ProductDto> recommandByHotList();
+
 }

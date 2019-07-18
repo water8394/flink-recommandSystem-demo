@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.demo.dao.ProductDao">
-
-
-    <select id="selectByIds" resultType="com.demo.domain.ProductEntity">
-        select * from product
+<mapper namespace="com.demo.dao.ContactDao">
+    <select id="selectByIds" resultType="com.demo.domain.ContactEntity">
+        select * from contact
         WHERE id IN
         <foreach collection="ids" index="index" item="item"
                  open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
-    <select id="selectById" resultType="com.demo.domain.ProductEntity">
-        select * from product
+    <select id="selectById" resultType="com.demo.domain.ContactEntity">
+        select * from contact
         WHERE product_id = #{id}
     </select>
 </mapper>
