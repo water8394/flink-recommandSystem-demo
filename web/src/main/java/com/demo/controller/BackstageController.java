@@ -12,12 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
 public class BackstageController {
 
-    private RedisClient redisClient = new RedisClient();
+	@Resource
+	private RedisClient redisClient;
 
     private int topSize = 10;
 
