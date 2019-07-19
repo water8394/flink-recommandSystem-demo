@@ -11,6 +11,7 @@ import com.demo.service.UserScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,12 @@ public class RecommandServiceImpl implements RecommandService {
     @Autowired
     ProductService productService;
 
-    private RedisClient redisClient = new RedisClient();
+	@Resource
+	private RedisClient redisClient;
 
-    private double BASE_SCORE = 0.5;
-    private int TOP_SIZE = 10;
+    private final static double BASE_SCORE = 0.5;
+
+    private final static int TOP_SIZE = 10;
 
     @Override
     public List<ProductScoreEntity> userRecommand(String userId) throws IOException {
