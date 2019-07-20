@@ -3,10 +3,10 @@ package com.demo.task;
 import com.demo.map.GetLogFunction;
 import com.demo.map.UserHistoryWithInterestMapFunction;
 import com.demo.util.Property;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 
 import java.util.Properties;
 

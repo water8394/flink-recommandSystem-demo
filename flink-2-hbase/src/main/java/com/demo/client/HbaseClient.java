@@ -1,5 +1,6 @@
 package com.demo.client;
 
+import com.demo.util.Property;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -14,10 +15,10 @@ public class HbaseClient {
 
     static {
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.rootdir", "hdfs://192.168.0.100:9000/hbase");
-        conf.set("hbase.zookeeper.quorum", "192.168.0.100");
-        conf.set("hbase.client.scanner.timeout.period", "1000");
-        conf.set("hbase.rpc.timeout", "1000");
+        conf.set("hbase.rootdir", Property.getStrValue("hbase.rootdir"));
+        conf.set("hbase.zookeeper.quorum", Property.getStrValue("hbase.zookeeper.quorum"));
+        conf.set("hbase.client.scanner.timeout.period", Property.getStrValue("hbase.client.scanner.timeout.period"));
+        conf.set("hbase.rpc.timeout", Property.getStrValue("hbase.rpc.timeout"));
         try {
             conn = ConnectionFactory.createConnection(conf);
             admin = conn.getAdmin();

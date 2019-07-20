@@ -5,7 +5,7 @@
 
     <select id="selectByIds" resultType="com.demo.domain.ProductEntity">
         select * from product
-        WHERE id IN
+        WHERE product_id IN
         <foreach collection="ids" index="index" item="item"
                  open="(" separator="," close=")">
             #{item}

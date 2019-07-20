@@ -4,7 +4,7 @@ spring:
   datasource:
     druid:
       username: root
-      password: root
+      password: 123456
       initial-size: 1
       min-idle: 1
       max-active: 20
@@ -34,4 +34,4 @@ mybatis:
 
 
 server:
-  port: 8080
+  port: 8082
