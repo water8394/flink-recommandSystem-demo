@@ -18,4 +18,9 @@ public class ContactServiceImpl implements ContactService {
     public List<ContactEntity> selectByIds(List<String> ids) {
         return contactDao.selectByIds(ids);
     }
+
+    @Override
+    public ContactEntity selectById(String id) {
+        return contactDao.selectById(Integer.valueOf(id));
+    }
 }

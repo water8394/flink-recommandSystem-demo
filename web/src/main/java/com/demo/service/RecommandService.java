@@ -10,6 +10,8 @@ public interface RecommandService {
 
 
     /**
+     * 弃用
+     *
      * 基于用户特征的热度表和产品标签关联表 -> 联合推荐
      * @param userId
      * @return
@@ -22,4 +24,15 @@ public interface RecommandService {
      */
     List<ProductDto> recommandByHotList();
 
+    /**
+     * 协同过滤推荐结果
+     * @return
+     */
+    List<ProductDto> recomandByItemCfCoeff() throws IOException;
+
+    /**
+     * 产品画像推荐结果
+     * @return
+     */
+    List<ProductDto> recomandByProductCoeff() throws IOException;
 }

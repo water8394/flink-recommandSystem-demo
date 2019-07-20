@@ -12,4 +12,11 @@ public interface ContactService {
      * @return
      */
     List<ContactEntity> selectByIds(List<String> ids);
+
+    /**
+     * 根据id 筛选产品
+     * @param id
+     * @return
+     */
+    ContactEntity selectById(String id);
 }

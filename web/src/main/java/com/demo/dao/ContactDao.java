@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ContactDao {
 
-    ContactDao selectById(@Param("id") int id);
+    ContactEntity selectById(@Param("id") int id);
 
     List<ContactEntity> selectByIds(@Param("ids") List<String> ids);
 }

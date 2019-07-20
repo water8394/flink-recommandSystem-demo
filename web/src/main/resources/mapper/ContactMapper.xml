@@ -11,6 +11,6 @@
     </select>
     <select id="selectById" resultType="com.demo.domain.ContactEntity">
         select * from contact
-        WHERE product_id = #{id}
+        WHERE id = #{id}
     </select>
 </mapper>

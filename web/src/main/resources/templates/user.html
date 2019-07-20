@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>商品页面</title>
 </head>
 <body>
-    <div></div>
+    <div class="container">
+
+        <div class="col-sm-4">
+            <div class="row" th:each="pro: ${hotList}" style=" border: 3px solid #ffe9bf">
+                <div class="col-sm-3">
+                    <img style="width: 100px;height: 100px;" th:src="${pro.contact.picUrl}"/>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <text><strong>id:</strong></text>
+                        <text th:text="${pro.contact.id}"></text>
+                        <text><strong>brand:</strong></text>
+                        <text th:text="${pro.contact.brandName}"></text>
+                    </div>
+                    <div class="row">
+                        <text th:text="${pro.contact.itemName}"></text>
+                        <img src="../icon/浏览.png" style="width: 20px;height: 20px;">
+                        <img src="../icon/收藏.png" style="width: 20px;height: 20px;">
+                        <img src="../icon/购买.png" style="width: 20px;height: 20px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4"></div>
+
+    </div>
+
 </body>
 </html>
