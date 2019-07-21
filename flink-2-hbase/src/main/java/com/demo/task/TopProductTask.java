@@ -9,6 +9,7 @@ import com.demo.top.TopNHotItems;
 import com.demo.util.Property;
 import com.demo.window.WindowResultFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -18,7 +19,6 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.redis.RedisSink;
 import org.apache.flink.streaming.connectors.redis.common.config.FlinkJedisPoolConfig;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 import org.apache.flink.util.Collector;
 
 import java.text.SimpleDateFormat;
@@ -41,8 +41,11 @@ public class TopProductTask {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 开启EventTime
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
-
-        FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder().setHost("192.168.0.100").build();
+		FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder()
+				.setHost(Property.getStrValue("redis.host"))
+				.setPort(Property.getIntValue("redis.port"))
+				.setDatabase(Property.getIntValue("redis.db"))
+				.build();
 
         Properties properties = Property.getKafkaProperties("topProuct");
         DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));

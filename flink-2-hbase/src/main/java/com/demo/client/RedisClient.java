@@ -1,12 +1,18 @@
 package com.demo.client;
 
 
+import com.demo.util.Property;
 import redis.clients.jedis.Jedis;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RedisClient {
-    private Jedis jedis = new Jedis("192.168.0.100", 6379);
+    private static Jedis jedis;
+
+    static {
+    	jedis = new Jedis(Property.getStrValue("redis.host"), Property.getIntValue("redis.port"));
+		jedis.select(Property.getIntValue("redis.db"));
+	}
 
     private static RedisClient redisClient;
 
@@ -27,7 +33,7 @@ public class RedisClient {
     public static void main(String[] args) {
         RedisClient client = new RedisClient();
 
-        String data = client.getData("1");
+        String data = client.getData("0");
         System.out.println(data);
     }
 }
