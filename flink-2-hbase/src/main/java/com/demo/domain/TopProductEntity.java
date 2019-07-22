@@ -50,4 +50,14 @@ public class TopProductEntity {
     public void setActionTimes(int actionTimes) {
         this.actionTimes = actionTimes;
     }
+
+    @Override
+    public String toString() {
+        return "TopProductEntity{" +
+                "productId=" + productId +
+                ", actionTimes=" + actionTimes +
+                ", windowEnd=" + windowEnd +
+                ", rankName='" + rankName + '\'' +
+                '}';
+    }
 }
