@@ -1,0 +1,20 @@
+  // 创建事实表 con （记录真实的日志信息）
+  create 'con',{NAME => 'log', VERSIONS => 2}
+
+ // 创建产品画像表  prod  （记录产品画像  目前阶段2个特征 sex age）
+ create 'prod',{NAME => 'sex', VERSIONS => 2},{NAME => 'age', VERSIONS => 2}
+
+ // 创建用户画像表  user（记录用户画像  目前阶段3个特征 country  color  style）
+create 'user',{NAME => 'country', VERSIONS => 2},{NAME => 'color', VERSIONS => 2},{NAME => 'style', VERSIONS => 2}
+
+// 创建用户产品关联表  u_history  （记录每个用户都对哪些产品发生过动作    p  ）
+create 'u_history',{NAME => 'p', VERSIONS => 2}
+
+// 创建产品用户关联表  p_history  （记录每个产品都有哪些用户发生过动作    p  ）
+create 'p_history',{NAME => 'p', VERSIONS => 2}
+
+// 创建产品相关度表（基于产品画像）  ps  （记录每个产品与其他产品的评分    p  ）
+create 'ps',{NAME => 'p', VERSIONS => 2}
+
+// 创建产品相关度表（基于协同过滤）  px  （记录每个产品与其他产品的评分    p  ）
+create 'px',{NAME => 'p', VERSIONS => 2}
