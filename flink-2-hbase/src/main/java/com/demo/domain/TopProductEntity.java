@@ -10,10 +10,10 @@ public class TopProductEntity {
     private long windowEnd;
     private String rankName;
 
-    public static TopProductEntity of(Long itemId, long end, Long count) {
+    public static TopProductEntity of(Integer itemId, long end, Long count) {
         TopProductEntity res = new TopProductEntity();
         res.setActionTimes(count.intValue());
-        res.setProductId(itemId.intValue());
+        res.setProductId(itemId);
         res.setWindowEnd(end);
         res.setRankName(String.valueOf(end));
         return res;

@@ -62,16 +62,15 @@ public class TopProductTask {
                 .keyBy("windowEnd").process(new TopNHotItems(topSize)).flatMap(new FlatMapFunction<List<String>, TopProductEntity>() {
                     @Override
                     public void flatMap(List<String> strings, Collector<TopProductEntity> collector) throws Exception {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmm");
-                        String time = sdf.format(new Date());
                         for (int i = 0; i < strings.size(); i++) {
                             TopProductEntity top = new TopProductEntity();
                             top.setRankName(String.valueOf(i));
-                            top.setWindowEnd(new Long(time));
+                            top.setWindowEnd(new Date().getTime());
                             top.setProductId(Integer.parseInt(strings.get(i)));
                         }
                     }
                 });
+		topProduct.print();
         topProduct.addSink(new RedisSink<>(conf,new TopNRedisSink()));
 
         env.execute("Top N ");
