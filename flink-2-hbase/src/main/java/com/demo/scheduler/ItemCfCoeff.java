@@ -50,7 +50,7 @@ public class ItemCfCoeff {
         for (Map.Entry entry : p1) {
             String key = (String) entry.getKey();
             for (Map.Entry p : p2) {
-                if (key == (String) p.getKey()) {
+                if (key.equals(p.getKey())) {
                     sum++;
                 }
             }
