@@ -10,17 +10,24 @@ import com.demo.service.ContactService;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;
+import org.apache.flink.util.CollectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Service("recommandService")
 public class RecommandServiceImpl implements RecommandService {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     UserScoreService userScoreService;
@@ -100,7 +107,15 @@ public class RecommandServiceImpl implements RecommandService {
         List<String> topList = redisClient.getTopList(TOP_SIZE);
         List<ProductDto> dtoList = new ArrayList<>();
         for (String s : topList) {
-            List<Map.Entry> ps = HbaseClient.getRow("px", s);
+			List<Map.Entry> ps = new ArrayList<>();
+			try {
+				ps = HbaseClient.getRow("px", s);
+			} catch (Exception e) {
+				logger.warn("px 没有产品【{}】记录", s);
+			}
+			if(CollectionUtils.isEmpty(ps)){
+				continue;
+			}
             // 只保留最相关的3个产品
             int end = ps.size()>PRODUCT_LIMIT ? ps.size() : PRODUCT_LIMIT;
             for (int i = 0; i < end; i++) {
@@ -115,8 +130,18 @@ public class RecommandServiceImpl implements RecommandService {
         List<String> topList = redisClient.getTopList(TOP_SIZE);
         List<ProductDto> dtoList = new ArrayList<>();
         for (String s : topList) {
-            //获取的产品list是已经排好序的,根据得分排序
-            List<Map.Entry> ps = HbaseClient.getRow("ps", s);
+
+			List<Map.Entry> ps = new ArrayList<>();
+			//获取的产品list是已经排好序的,根据得分排序
+			try {
+				ps = HbaseClient.getRow("ps", s);
+			} catch (Exception e) {
+				logger.warn("ps 没有产品【{}】记录", s);
+			}
+			if(CollectionUtils.isEmpty(ps)){
+				continue;
+			}
+
             // 只保留最相关的3个产品
             int end = ps.size()>PRODUCT_LIMIT ? ps.size() : PRODUCT_LIMIT;
             for (int i = 0; i < end; i++) {
