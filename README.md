@@ -97,7 +97,7 @@
   <img src="D:/Code/IdeaProjects/flink-recommandSystem-demo/resources/pic/%E5%9F%BA%E4%BA%8E%E7%89%A9%E5%93%81%E7%9A%84%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E5%85%AC%E5%BC%8F.svg" width="30%" height="30%">
                  
 
-### 3. 后台数据大屏
+### 3. 前台推荐页面
 
 ​	当前推荐结果分为3列,分别是热度榜推荐,协同过滤推荐和产品画像推荐
 
