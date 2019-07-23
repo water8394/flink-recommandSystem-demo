@@ -10,7 +10,6 @@ import com.demo.service.ContactService;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;
-import org.apache.flink.util.CollectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("recommandService")
 public class RecommandServiceImpl implements RecommandService {
@@ -79,17 +75,19 @@ public class RecommandServiceImpl implements RecommandService {
     public List<ProductDto> recommandByHotList() {
         // 获取top榜单
         List<String> topList = redisClient.getTopList(TOP_SIZE);
+        int topSize = topList.size();
         // 拿到产品详情表
         List<ContactEntity> contactEntities = contactService.selectByIds(topList);
         // 拿到产品基本信息表
         List<ProductEntity> productEntities = productService.selectByIds(topList);
         List<ProductDto> ret = new ArrayList<>();
+//        topList.forEach(System.out::println);
         // 将产品转为dto
-        for (int i = 0; i < TOP_SIZE; i++) {
+        for (int i = 0; i < topSize; i++) {
             String topId = topList.get(i);
             ProductDto dto = new ProductDto();
-            dto.setScore(11-i);
-            for (int j = 0; j < TOP_SIZE; j++) {
+            dto.setScore(TOP_SIZE+1-i);
+            for (int j = 0; j < topSize; j++) {
                 if (topId.equals(String.valueOf(contactEntities.get(j).getId()))){
                     dto.setContact(contactEntities.get(j));
                 }
@@ -105,50 +103,27 @@ public class RecommandServiceImpl implements RecommandService {
     @Override
     public List<ProductDto> recomandByItemCfCoeff() throws IOException {
         List<String> topList = redisClient.getTopList(TOP_SIZE);
-        List<ProductDto> dtoList = new ArrayList<>();
-        for (String s : topList) {
-			List<Map.Entry> ps = new ArrayList<>();
-			try {
-				ps = HbaseClient.getRow("px", s);
-			} catch (Exception e) {
-				logger.warn("px 没有产品【{}】记录", s);
-			}
-			if(CollectionUtils.isEmpty(ps)){
-				continue;
-			}
-            // 只保留最相关的3个产品
-            int end = ps.size()>PRODUCT_LIMIT ? ps.size() : PRODUCT_LIMIT;
-            for (int i = 0; i < end; i++) {
-                dtoList.add(selectProductById((String) ps.get(i).getKey()));
-            }
-        }
-        return dtoList;
+        List<String> px = addRecommandProduct(topList, "px");
+        removeDuplicateWithOrder(px);
+        // 拿到产品详情表
+        List<ContactEntity> contactEntities = contactService.selectByIds(px);
+        // 拿到产品基本信息表
+        List<ProductEntity> productEntities = productService.selectByIds(px);
+        return transferToDto(px,contactEntities, productEntities);
     }
+
+
 
     @Override
     public List<ProductDto> recomandByProductCoeff() throws IOException {
         List<String> topList = redisClient.getTopList(TOP_SIZE);
-        List<ProductDto> dtoList = new ArrayList<>();
-        for (String s : topList) {
-
-			List<Map.Entry> ps = new ArrayList<>();
-			//获取的产品list是已经排好序的,根据得分排序
-			try {
-				ps = HbaseClient.getRow("ps", s);
-			} catch (Exception e) {
-				logger.warn("ps 没有产品【{}】记录", s);
-			}
-			if(CollectionUtils.isEmpty(ps)){
-				continue;
-			}
-
-            // 只保留最相关的3个产品
-            int end = ps.size()>PRODUCT_LIMIT ? ps.size() : PRODUCT_LIMIT;
-            for (int i = 0; i < end; i++) {
-                dtoList.add(selectProductById((String) ps.get(i).getKey()));
-            }
-        }
-        return dtoList;
+        List<String> ps = addRecommandProduct(topList, "ps");
+        removeDuplicateWithOrder(ps);
+        // 拿到产品详情表
+        List<ContactEntity> contactEntities = contactService.selectByIds(ps);
+        // 拿到产品基本信息表
+        List<ProductEntity> productEntities = productService.selectByIds(ps);
+        return transferToDto(ps,contactEntities, productEntities);
     }
 
 
@@ -164,5 +139,77 @@ public class RecommandServiceImpl implements RecommandService {
         dto.setProduct(productEntity);
         dto.setContact(contactEntity);
         return dto;
+    }
+
+    /**
+     * 查询中对应的hbase推荐表数据添加加结果集
+     * @param topList
+     * @return List<String> 结果id集合
+     */
+    private List<String> addRecommandProduct(List<String> topList, String table){
+        List<String> ret = new ArrayList<>();
+        for (String s : topList) {
+            //首先将top产品添加进结果集
+            ret.add(s);
+            List<Map.Entry> ps = new ArrayList<>();
+            //获取的产品list是已经排好序的,根据得分排序
+            try {
+                ps = HbaseClient.getRow(table, s);
+            } catch (Exception e) {
+                logger.warn("Hbase中没有产品【{}】记录", s);
+            }
+            if(CollectionUtils.isEmpty(ps)){
+                continue;
+            }
+
+            // 只保留最相关的3个产品
+            int end = ps.size()>PRODUCT_LIMIT ? ps.size() : PRODUCT_LIMIT;
+            for (int i = 0; i < end; i++) {
+                ret.add((String) ps.get(i).getKey());
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 将
+     * @param list
+     * @param contactEntities
+     * @param productEntities
+     * @return
+     */
+    private List<ProductDto> transferToDto(List<String> list, List<ContactEntity> contactEntities, List<ProductEntity> productEntities) {
+        List<ProductDto> ret = new ArrayList<>();
+        int topSize = Math.min(Math.min(list.size(),contactEntities.size()), productEntities.size());
+        for (int i = 0; i < topSize; i++) {
+            String topId = list.get(i);
+            ProductDto dto = new ProductDto();
+            dto.setScore(TOP_SIZE+1-i);
+            for (int j = 0; j < topSize; j++) {
+                if (topId.equals(String.valueOf(contactEntities.get(j).getId()))){
+                    dto.setContact(contactEntities.get(j));
+                }
+                if (topId.equals(String.valueOf(productEntities.get(j).getProductId()))){
+                    dto.setProduct(productEntities.get(j));
+                }
+            }
+            ret.add(dto);
+        }
+        ret.forEach(System.out::println);
+        return ret;
+    }
+
+    // 删除list中重复元素
+    public static void removeDuplicateWithOrder(List list) {
+        Set set = new HashSet();
+        List newList = new ArrayList();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Object element = iter.next();
+            if (set.add(element)){
+                newList.add(element);
+            }
+        }
+        list.clear();
+        list.addAll(newList);
     }
 }
