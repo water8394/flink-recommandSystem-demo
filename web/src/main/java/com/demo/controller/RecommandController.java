@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import com.demo.dto.ProductDto;
+import com.demo.service.KafkaService;
 import com.demo.service.RecommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class RecommandController {
     @Autowired
     RecommandService recommandService;
 
+    @Autowired
+    KafkaService kafkaService;
     /**
      * 返回推荐页面
      * @param userId
@@ -38,6 +41,15 @@ public class RecommandController {
         model.addAttribute("productCoeffList", productCoeffList);
 
         return "user";
+    }
+
+    @GetMapping("log")
+    public void logToKafka(@RequestParam("id") String userId,
+                           @RequestParam("prod") String productId,
+                           @RequestParam("action") String action){
+
+        String log = kafkaService.makeLog(userId, productId, action);
+        kafkaService.send(null, log);
     }
 
 }
