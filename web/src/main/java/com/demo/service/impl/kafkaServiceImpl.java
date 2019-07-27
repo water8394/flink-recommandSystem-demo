@@ -12,7 +12,7 @@ import java.util.Properties;
 @Service("kafkaService")
 public class kafkaServiceImpl implements KafkaService {
 
-    private String TOPIC = "log";
+    private String TOPIC = "con";
 
     @Override
     public void send(String key, String value) {
@@ -41,7 +41,6 @@ public class kafkaServiceImpl implements KafkaService {
         sb.append(getSecondTimestamp(new Date()));
         sb.append(",");
         sb.append(action);
-        sb.append(",");
         return sb.toString();
     }
 

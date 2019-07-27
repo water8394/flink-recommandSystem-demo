@@ -195,7 +195,7 @@ public class RecommandServiceImpl implements RecommandService {
             }
             ret.add(dto);
         }
-        ret.forEach(System.out::println);
+//        ret.forEach(System.out::println);
         return ret;
     }
 
