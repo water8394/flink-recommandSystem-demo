@@ -4,18 +4,18 @@ spring:
   datasource:
     druid:
       username: root
-      password: root
+      password: 123456
       initial-size: 1
       min-idle: 1
       max-active: 20
       test-on-borrow: true
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/con?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      url: jdbc:mysql://localhost:3308/con?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
 
   redis:
-    database: 0
+    database: 1
     # 192.168.124.110
-    host: 192.168.124.110
+    host: localhost
     port: 6379
     password:
       pool:
@@ -34,4 +34,4 @@ mybatis:
 
 
 server:
-  port: 8082
+  port: 8080
