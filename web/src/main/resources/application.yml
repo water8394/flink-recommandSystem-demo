@@ -13,7 +13,7 @@ spring:
       url: jdbc:mysql://localhost:3308/con?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
 
   redis:
-    database: 1
+    database: 0
     # 192.168.124.110
     host: localhost
     port: 6379
@@ -34,4 +34,4 @@ mybatis:
 
 
 server:
-  port: 8080
+  port: 8082

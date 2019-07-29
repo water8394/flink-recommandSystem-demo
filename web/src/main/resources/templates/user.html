@@ -28,21 +28,14 @@
                         <text><strong>brand:</strong></text>
                         <text th:text="${pro.contact.brandName}"></text>
                     </div>
-
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <text><strong>id:</strong></text>
-                            <text th:text="${pro.contact.id}"></text>
-                            <text><strong>brand:</strong></text>
-                            <text th:text="${pro.contact.brandName}"></text>
-                        </div>
-                        <div class="row" style="margin-top: 50px">
-                            <text th:text="${pro.contact.itemName}"></text>
-                            <img src="../icon/浏览.png" style="width: 20px;height: 20px;" onclick="alter('123')">
-                            <img src="../icon/收藏.png" style="width: 20px;height: 20px;">
-                            <img src="../icon/购买.png" style="width: 20px;height: 20px;">
-                        </div>
-
+                    <div class="row" style="margin-top: 50px">
+                        <text th:text="${pro.contact.itemName}"></text>
+                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img
+                                src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
+                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img
+                                src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
+                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img
+                                src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
                     </div>
                 </div>
             </div>
@@ -107,7 +100,7 @@
 <!--日志发送函数-->
 <script>
     function sendLog(id, prod, action) {
-        var url = "http://localhost:8080/log?id=" + id + "&prod=" + prod + "&action=" + action;
+        var url = "http://localhost:8082/log?id=" + id + "&prod=" + prod + "&action=" + action;
         var request = new XMLHttpRequest();
         request.open("GET", url);
         request.send();

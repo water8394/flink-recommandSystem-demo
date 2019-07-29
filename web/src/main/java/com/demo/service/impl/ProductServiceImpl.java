@@ -25,4 +25,10 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> selectByIds(List<String> ids) {
         return productDao.selectByIds(ids);
     }
+
+	@Override
+	public List<String> selectInitPro(int topSize) {
+		return productDao.selectInitPro(topSize);
+	}
+
 }

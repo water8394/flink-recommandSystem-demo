@@ -15,4 +15,7 @@
         select * from product
         WHERE product_id = #{id}
     </select>
+    <select id="selectInitPro" resultType="java.lang.String">
+        SELECT product_id FROM product ORDER BY product_id LIMIT #{size}
+    </select>
 </mapper>
