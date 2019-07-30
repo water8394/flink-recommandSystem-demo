@@ -64,7 +64,7 @@
 
 
 
-### 2.推荐引擎逻辑说明(v1.0架构 待改动说明)
+### 2.推荐引擎逻辑说明
 
 - **2.1 基于热度的推荐逻辑**
 
@@ -97,20 +97,25 @@
   <img src="D:/Code/IdeaProjects/flink-recommandSystem-demo/resources/pic/%E5%9F%BA%E4%BA%8E%E7%89%A9%E5%93%81%E7%9A%84%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E5%85%AC%E5%BC%8F.svg" width="30%" height="30%">
                  
 
-### 3. 后台数据大屏
+### 3. 前台推荐页面
+
+​	当前推荐结果分为3列,分别是热度榜推荐,协同过滤推荐和产品画像推荐
+
+<div align=center><img src="resources/pic/推荐页面.png" width="80%" height="100%"></div>
+
+### 4. 后台数据大屏
 
 ​	**在后台上显示推荐系统的实时数据**,数据来自其他Flink计算模块的结果.目前包含热度榜和1小时日志接入量两个指标. 
-真实数据位置在resource/contact.sql
+真实数据位置在resource/database.sql
 
 <div align=center><img src="resources/pic/后台数据.png" width="80%" height="100%"></div>
 
-### 4. 部署说明 (待补充)
+### 5. 部署说明 (待补充)
 
-### 5. 下一步工作
+### 6. 下一步工作
 
-1. 添加部署说明
-2. 添加前台页面,提供用户交互
+1. 添加前台发送kafka日志
+2. 添加部署说明
 3. 完善数据大屏,显示更详细的指标
-4. 构建离线推荐逻辑
-5. 统计召回率/准确率等业务指标
+4. 统计召回率/准确率等业务指标
 

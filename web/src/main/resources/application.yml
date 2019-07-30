@@ -10,10 +10,10 @@ spring:
       max-active: 20
       test-on-borrow: true
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/con?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      url: jdbc:mysql://localhost:3308/con?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
 
   redis:
-    database: 1
+    database: 0
     # 192.168.124.110
     host: localhost
     port: 6379

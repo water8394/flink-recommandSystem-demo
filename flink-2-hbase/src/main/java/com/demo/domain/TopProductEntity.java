@@ -10,10 +10,10 @@ public class TopProductEntity {
     private long windowEnd;
     private String rankName;
 
-    public static TopProductEntity of(Long itemId, long end, Long count) {
+    public static TopProductEntity of(Integer itemId, long end, Long count) {
         TopProductEntity res = new TopProductEntity();
         res.setActionTimes(count.intValue());
-        res.setProductId(itemId.intValue());
+        res.setProductId(itemId);
         res.setWindowEnd(end);
         res.setRankName(String.valueOf(end));
         return res;
@@ -49,5 +49,15 @@ public class TopProductEntity {
 
     public void setActionTimes(int actionTimes) {
         this.actionTimes = actionTimes;
+    }
+
+    @Override
+    public String toString() {
+        return "TopProductEntity{" +
+                "productId=" + productId +
+                ", actionTimes=" + actionTimes +
+                ", windowEnd=" + windowEnd +
+                ", rankName='" + rankName + '\'' +
+                '}';
     }
 }

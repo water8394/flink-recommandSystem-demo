@@ -10,13 +10,12 @@ public class TopNRedisSink implements RedisMapper<TopProductEntity> {
 
     @Override
     public RedisCommandDescription getCommandDescription() {
-        return new RedisCommandDescription(RedisCommand.LPUSH, "topN");
+        return new RedisCommandDescription(RedisCommand.SET, null);
     }
 
     @Override
     public String getKeyFromData(TopProductEntity s) {
-
-        return String.valueOf(s.getWindowEnd());
+        return String.valueOf(s.getRankName());
     }
 
     @Override

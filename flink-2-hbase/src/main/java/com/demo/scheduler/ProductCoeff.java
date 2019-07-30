@@ -47,27 +47,30 @@ public class ProductCoeff {
      * @return 产品标签entity
      * @throws IOException
      */
-    private ProductPortraitEntity sigleProduct(String proId) throws IOException {
+    private ProductPortraitEntity sigleProduct(String proId) {
 
         ProductPortraitEntity entity = new ProductPortraitEntity();
-
-        String woman = HbaseClient.getData("prod", proId, "sex", Constants.SEX_WOMAN);
-        String man = HbaseClient.getData("prod", proId, "sex", Constants.SEX_MAN);
-        String age_10 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_10);
-        String age_20 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_20);
-        String age_30 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_30);
-        String age_40 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_40);
-        String age_50 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_50);
-        String age_60 = HbaseClient.getData("prod", proId, "sex", Constants.AGE_60);
-
-        entity.setMan(Integer.valueOf(man));
-        entity.setWoman(Integer.valueOf(woman));
-        entity.setAge_10(Integer.valueOf(age_10));
-        entity.setAge_20(Integer.valueOf(age_20));
-        entity.setAge_30(Integer.valueOf(age_30));
-        entity.setAge_40(Integer.valueOf(age_40));
-        entity.setAge_50(Integer.valueOf(age_50));
-        entity.setAge_60(Integer.valueOf(age_60));
+		try {
+			String woman = HbaseClient.getData("prod", proId, "sex", Constants.SEX_WOMAN);
+			String man = HbaseClient.getData("prod", proId, "sex", Constants.SEX_MAN);
+			String age_10 = HbaseClient.getData("prod", proId, "age", Constants.AGE_10);
+			String age_20 = HbaseClient.getData("prod", proId, "age", Constants.AGE_20);
+			String age_30 = HbaseClient.getData("prod", proId, "age", Constants.AGE_30);
+			String age_40 = HbaseClient.getData("prod", proId, "age", Constants.AGE_40);
+			String age_50 = HbaseClient.getData("prod", proId, "age", Constants.AGE_50);
+			String age_60 = HbaseClient.getData("prod", proId, "age", Constants.AGE_60);
+			entity.setMan(Integer.valueOf(man));
+			entity.setWoman(Integer.valueOf(woman));
+			entity.setAge_10(Integer.valueOf(age_10));
+			entity.setAge_20(Integer.valueOf(age_20));
+			entity.setAge_30(Integer.valueOf(age_30));
+			entity.setAge_40(Integer.valueOf(age_40));
+			entity.setAge_50(Integer.valueOf(age_50));
+			entity.setAge_60(Integer.valueOf(age_60));
+		} catch (Exception e) {
+			System.err.println("proId: " + proId);
+			e.printStackTrace();
+		}
         return entity;
 
     }

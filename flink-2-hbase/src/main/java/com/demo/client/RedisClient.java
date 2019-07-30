@@ -33,7 +33,7 @@ public class RedisClient {
     public static void main(String[] args) {
         RedisClient client = new RedisClient();
 
-        String data = client.getData("0");
+        String data = client.getData("3");
         System.out.println(data);
     }
 }
