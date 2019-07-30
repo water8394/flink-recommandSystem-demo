@@ -19,4 +19,6 @@ public interface ProductService {
      * @return
      */
     List<ProductEntity> selectByIds(List<String> ids);
+
+	List<String> selectInitPro(int topSize);
 }

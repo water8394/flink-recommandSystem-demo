@@ -51,7 +51,8 @@ public class BackstageController {
     @GetMapping("/meter")
     public Result getMeter(){
         // 获取 1小时内接入量
-        String meter = redisClient.getMeter();
+//        String meter = redisClient.getMeter();
+        String meter = "69";
         return ResultUtils.success(meter);
     }
 }

@@ -13,4 +13,6 @@ public interface ProductDao {
     ProductEntity selectById(@Param("id") int id);
 
     List<ProductEntity> selectByIds(@Param("ids") List<String> ids);
+
+	List<String> selectInitPro(@Param("size") int size);
 }

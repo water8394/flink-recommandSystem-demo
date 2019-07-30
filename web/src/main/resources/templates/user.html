@@ -100,7 +100,7 @@
 <!--日志发送函数-->
 <script>
     function sendLog(id, prod, action) {
-        var url = "http://localhost:8080/log?id=" + id + "&prod=" + prod + "&action=" + action;
+        var url = "http://localhost:8082/log?id=" + id + "&prod=" + prod + "&action=" + action;
         var request = new XMLHttpRequest();
         request.open("GET", url);
         request.send();
