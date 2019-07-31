@@ -11,7 +11,7 @@ import java.util.*;
 
 public class HbaseClient {
     private static Admin admin;
-    private static Connection conn;
+    public static Connection conn;
 
     static {
         Configuration conf = HBaseConfiguration.create();
@@ -129,4 +129,22 @@ public class HbaseClient {
         List<Map.Entry> ps = HbaseClient.getRow("ps", "1");
         ps.forEach(System.out::println);
     }
+
+
+	/**
+	 * 取出表中所有的key
+	 * @param tableName
+	 * @return
+	 */
+	public static List<String> getAllKey(String tableName) throws IOException {
+		List<String> keys = new ArrayList<>();
+		Scan scan = new Scan();
+		Table table = HbaseClient.conn.getTable(TableName.valueOf(tableName));
+		ResultScanner scanner = table.getScanner(scan);
+		for (Result r : scanner) {
+			keys.add(new String(r.getRow()));
+		}
+		return keys;
+	}
+
 }
