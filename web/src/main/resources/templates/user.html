@@ -7,89 +7,116 @@
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <style>
+        .product-item {
+            margin-top: 5px;
+            border: 1px solid #ffe9bf;
+        }
+        .product-item-img{
+            width: 100px;
+            height: auto;
+        }
+        .product-action{
+            /*margin-top: 35%*/
+        }
+    </style>
 </head>
 <body>
+<div class="clearfix" style="margin-top:15px;"></div>
 <div class="container-fluid">
 
     <div class="row">
         <!--热度榜-->
         <div class="col-lg-4">
-            <div class="row">
-                <p1 style="font-size: 40px; margin-left: 250px; margin-bottom: 20px;color: crimson">热度榜</p1>
-            </div>
-            <div class="row" th:each="pro: ${hotList}" style=" margin-top:20px; border: 3px solid #ffe9bf">
-                <div class="col-lg-6">
-                    <img style="width: 100px;height: 100px;" th:src="${pro.contact.picUrl}"/>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <text><strong>id:</strong></text>
-                        <text th:text="${pro.contact.id}"></text>
-                        <text><strong>brand:</strong></text>
-                        <text th:text="${pro.contact.brandName}"></text>
-                    </div>
-                    <div class="row" style="margin-top: 50px">
-                        <text th:text="${pro.contact.itemName}"></text>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img
-                                src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img
-                                src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img
-                                src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
-                    </div>
-                </div>
-            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">热度榜</div>
+                <div class="panel-body">
 
+                    <div class="row product-item" th:each="pro: ${hotList}">
+                        <div class="col-lg-6">
+                            <img class="product-item-img" th:src="${pro.contact.picUrl}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <text><strong>id:</strong></text>
+                                <text th:text="${pro.contact.id}"></text>
+                                <text><strong>brand:</strong></text>
+                                <text th:text="${pro.contact.brandName}"></text>
+                            </div>
+                            <div class="row product-action">
+                                <text th:text="${pro.contact.itemName}"></text>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'"
+                                   href=""><img
+                                        src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'"
+                                   href=""><img
+                                        src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'"
+                                   href=""><img
+                                        src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--协同过滤-->
         <div class="col-lg-4">
-            <div class="row">
-                <p1 style="font-size: 40px; margin-left: 250px; margin-bottom: 20px;color: crimson">协同过滤推荐</p1>
-            </div>
-            <div class="row" th:each="pro: ${itemCfCoeffList}" style=" margin-top:20px; border: 3px solid #ffb6c7">
-                <div class="col-lg-6">
-                    <img style="width: 100px;height: 100px;" th:src="${pro.contact.picUrl}"/>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <text><strong>id:</strong></text>
-                        <text th:text="${pro.contact.id}"></text>
-                        <text><strong>brand:</strong></text>
-                        <text th:text="${pro.contact.brandName}"></text>
-                    </div>
-                    <div class="row" style="margin-top: 50px">
-                        <text th:text="${pro.contact.itemName}"></text>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img src="../icon/浏览.png" style="width: 20px;height: 20px;" ></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img src="../icon/收藏.png" style="width: 20px;height: 20px;" ></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img src="../icon/购买.png" style="width: 20px;height: 20px;" ></a>
+            <div class="panel panel-info">
+                <div class="panel-heading">协同过滤推荐</div>
+                <div class="panel-body">
+                    <div class="row product-item" th:each="pro: ${itemCfCoeffList}">
+                        <div class="col-lg-6">
+                            <img class="product-item-img" th:src="${pro.contact.picUrl}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <text><strong>id:</strong></text>
+                                <text th:text="${pro.contact.id}"></text>
+                                <text><strong>brand:</strong></text>
+                                <text th:text="${pro.contact.brandName}"></text>
+                            </div>
+                            <div class="row product-action">
+                                <text th:text="${pro.contact.itemName}"></text>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'"
+                                   href=""><img src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'"
+                                   href=""><img src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'"
+                                   href=""><img src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!--产品画像-->
         <div class="col-lg-4">
-            <div class="row">
-                <p1 style="font-size: 40px; margin-left: 250px; margin-bottom: 20px;color: crimson">产品画像推荐</p1>
-            </div>
-            <div class="row" th:each="pro: ${productCoeffList}" style=" margin-top:20px; border: 3px solid #a1fff3">
-                <div class="col-lg-6">
-                    <img style="width: 100px;height: 100px;" th:src="${pro.contact.picUrl}"/>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <text><strong>id:</strong></text>
-                        <text th:text="${pro.contact.id}"></text>
-                        <text><strong>brand:</strong></text>
-                        <text th:text="${pro.contact.brandName}"></text>
-                    </div>
-                    <div class="row" style="margin-top: 50px">
-                        <text th:text="${pro.contact.itemName}"></text>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img
-                                src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img
-                                src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
-                        <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img
-                                src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
+            <div class="panel panel-primary">
+                <div class="panel-heading">产品画像推荐</div>
+                <div class="panel-body">
+                    <div class="row product-item" th:each="pro: ${productCoeffList}">
+                        <div class="col-lg-6">
+                            <img class="product-item-img" th:src="${pro.contact.picUrl}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <text><strong>id:</strong></text>
+                                <text th:text="${pro.contact.id}"></text>
+                                <text><strong>brand:</strong></text>
+                                <text th:text="${pro.contact.brandName}"></text>
+                            </div>
+                            <div class="row product-action">
+                                <text th:text="${pro.contact.itemName}"></text>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img
+                                        src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img
+                                        src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
+                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img
+                                        src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +127,7 @@
 <!--日志发送函数-->
 <script>
     function sendLog(id, prod, action) {
-        var url = "http://localhost:8082/log?id=" + id + "&prod=" + prod + "&action=" + action;
+        var url = "/log?id=" + id + "&prod=" + prod + "&action=" + action;
         var request = new XMLHttpRequest();
         request.open("GET", url);
         request.send();
