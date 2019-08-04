@@ -10,6 +10,7 @@ import com.demo.service.ContactService;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;
+import org.apache.hadoop.hbase.client.coprocessor.BigDecimalColumnInterpreter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -139,6 +141,7 @@ public class RecommandServiceImpl implements RecommandService {
 			//获取的产品list是已经排好序的,根据得分排序
 			try {
 				ps = HbaseClient.getRow(table, s);
+				Collections.sort(ps,((o1, o2) -> -(new BigDecimal(o1.getValue().toString()).compareTo(new BigDecimal(o2.getValue().toString())))));
 			} catch (Exception e) {
 				logger.warn("Hbase中没有产品【{}】记录", s);
 			}
@@ -146,7 +149,7 @@ public class RecommandServiceImpl implements RecommandService {
 				continue;
 			}
 			// 只保留最相关的3个产品
-			int end = ps.size() > PRODUCT_LIMIT ? PRODUCT_LIMIT : ps.size();
+			int end = Math.min(ps.size(), PRODUCT_LIMIT);
 			for (int i = 0; i < end; i++) {
 				if (Objects.nonNull(ps.get(i))) {
 					ret.add((String) ps.get(i).getKey());
@@ -214,7 +217,8 @@ public class RecommandServiceImpl implements RecommandService {
 		List<String> topList = redisClient.getTopList(TOP_SIZE);
 		topList = topList.stream().filter(Objects::nonNull).collect(Collectors.toList());
 		if (topList.size() < 10) {
-			topList.addAll(productService.selectInitPro(TOP_SIZE));
+			// 尽量多的拿产品列表
+			topList.addAll(productService.selectInitPro(100));
 			topList = topList.stream().distinct().collect(Collectors.toList());
 			logger.info("top: {}", topList);
 		}

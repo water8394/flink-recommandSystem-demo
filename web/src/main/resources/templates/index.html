@@ -15,27 +15,29 @@
     <div class="row">
         <!--热度榜-->
         <div class="col-sm-6" style="margin-top: 50px;" >
-            <p1 style="font-size: 50px; margin-left: 250px; margin-bottom: 20px;color: crimson">热度榜</p1>
-                <!--<div class="row" style=" border: 3px solid #ff877c">-->
-            <!--<div class="container" style=" border: 3px solid #ff877c">-->
-                <div class="row" th:each="pro : ${topProduct}" style=" border: 3px solid #ffe9bf">
-                    <div class="col-sm-3">
-                        <img style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="row">
-                            <text><strong>id:</strong></text>
-                            <text th:text="${pro.id}"></text>
-                            <text><strong>brand:</strong></text>
-                            <text th:text="${pro.brandName}"></text>
+
+            <div class="panel panel-success">
+                <div class="panel-heading"><p1>热度榜</p1></div>
+                <div class="panel-body">
+                    <div class="row" th:each="pro : ${topProduct}" style=" border: 3px solid #ffe9bf">
+                        <div class="col-sm-3">
+                            <img style="width: 100px;height: 100px;" th:src="${pro.picUrl}"/>
                         </div>
-                        <div class="row">
-                            <text th:text="${pro.itemName}"></text>
+                        <div class="col-sm-3">
+                            <div class="row">
+                                <text><strong>id:</strong></text>
+                                <text th:text="${pro.id}"></text>
+                                <text><strong>brand:</strong></text>
+                                <text th:text="${pro.brandName}"></text>
+                            </div>
+                            <div class="row">
+                                <text th:text="${pro.itemName}"></text>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            <!--</div>-->
         </div>
         <!--小时内实时日志量-->
         <div class="col-sm-4">
