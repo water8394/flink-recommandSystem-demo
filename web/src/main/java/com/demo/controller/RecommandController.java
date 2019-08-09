@@ -54,7 +54,6 @@ public class RecommandController {
                              @RequestParam("action") String action){
 
         String log = kafkaService.makeLog(userId, productId, action);
-//        System.out.println(log);
         kafkaService.send(null, log);
         return ResultUtils.success();
     }
