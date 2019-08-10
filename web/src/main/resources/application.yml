@@ -25,6 +25,21 @@ spring:
         min-idle: 0
     timeout: 500
 
+  kafka:
+    bootstrap-servers: 192.168.1.7:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      batch-size: 65536
+      buffer-memory: 524288
+
+
+    consumer:
+      group-id: 0
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
