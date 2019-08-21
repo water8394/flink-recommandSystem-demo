@@ -94,7 +94,7 @@
 
   根据产品用户表（Hbase） 去计算公式得到相似度评分：
 
-  <img src="D:/Code/IdeaProjects/flink-recommandSystem-demo/resources/pic/%E5%9F%BA%E4%BA%8E%E7%89%A9%E5%93%81%E7%9A%84%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E5%85%AC%E5%BC%8F.svg" width="30%" height="30%">
+  <img src="resources/pic/%E5%9F%BA%E4%BA%8E%E7%89%A9%E5%93%81%E7%9A%84%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E5%85%AC%E5%BC%8F.svg" width="30%" height="30%">
                  
 
 ### 3. 前台推荐页面
