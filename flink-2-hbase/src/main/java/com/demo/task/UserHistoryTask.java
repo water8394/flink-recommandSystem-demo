@@ -16,7 +16,7 @@ public class UserHistoryTask {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         Properties properties = Property.getKafkaProperties("history");
-        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("history", new SimpleStringSchema(), properties));
+        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));
         dataStream.map(new UserHistoryMapFunction());
 
         env.execute("User Product History");
