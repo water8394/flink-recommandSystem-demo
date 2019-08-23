@@ -210,10 +210,15 @@ KAFKA_MANAGER_PASSWORD: password
 > 以下的操作是在IDEA下完成
 
 1、将上述部署的几个服务的ip和端口号分别配置在flink-2-hbase和web服务中;
+
 2、在flink-2-hbase中的根目录执行`mvn clean install`，目的是将其打包并放置在本地仓库中;
+
 3、分别启动task目录下的task(直接在idea中右键启动就行了);
+
 4、把SchedulerJob启动起来，定时的去计算协同过滤和用户画像所需要的分数;
+
 5、在idea中打开web项目，等待其自动引入flink-2-hbase生成的jar包之后，再启动服务就ok了；
+
 
 **注意**： 所有的服务启动后，因为没有任何的点击记录，所以就是随机从数据库取得产品，这里需要你在推荐页面随便点击，等有了一定的历史数据之后，就能实现实时推荐的效果了
 
