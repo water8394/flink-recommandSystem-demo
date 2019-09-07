@@ -18,3 +18,6 @@ create 'ps',{NAME => 'p', VERSIONS => 2}
 
 // 创建产品相关度表（基于协同过滤）  px  （记录每个产品与其他产品的评分    p  ）
 create 'px',{NAME => 'p', VERSIONS => 2}
+
+// 创建用户兴趣表  u_interest （记录每个用户都对哪些产品有兴趣    p  ）
+create 'u_interest',{NAME => 'p', VERSIONS => 2}
