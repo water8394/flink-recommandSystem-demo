@@ -99,20 +99,22 @@
 
 ### 3. 前台推荐页面
 
-​	当前推荐结果分为3列,分别是热度榜推荐,协同过滤推荐和产品画像推荐
+​ 当前推荐结果分为3列,分别是热度榜推荐,协同过滤推荐和产品画像推荐
 
 <div align=center><img src="resources/pic/推荐页面.png" width="80%" height="100%"></div>
 
 ### 4. 后台数据大屏
 
-​	**在后台上显示推荐系统的实时数据**,数据来自其他Flink计算模块的结果.目前包含热度榜和1小时日志接入量两个指标. 
+​ **在后台上显示推荐系统的实时数据**,数据来自其他Flink计算模块的结果.目前包含热度榜和1小时日志接入量两个指标. 
 真实数据位置在resource/database.sql
 
 <div align=center><img src="resources/pic/后台数据.png" width="80%" height="100%"></div>
 
 ### 5. 部署说明 
+>以下的部署均使用Docker，对于搭建一套复杂的系统，使用docker来部署各种服务中间件再合适不过了。这里有一套简单的[Docker入门系列](https://blog.csdn.net/qqHJQS/column/info/33078)
+
 ![system](resources/pic/system.png)
-需要的服务有：Mysql、Redis、Hbase和Kafka,建议使用Docker部署(如果对Docker不熟悉，可以简单的把[Docker专栏](https://blog.csdn.net/qqHJQS/column/info/33078)看一看， 很快就会上手)
+需要的服务有：Mysql、Redis、Hbase和Kafka
 
 #### Mysql
 ```
@@ -120,29 +122,25 @@ docker pull mysql:5.7
 
 docker run --name local-mysql -p 3308:3306  -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 ```
-比较简单，先拉取镜像，然后指定参数启动容器
+简单介绍一下命令，先拉取镜像，然后指定参数启动容器
+
 - `--name local-mysql` 容器名为local-mysql
-- `-p 3308:3306`       宿主机与容器的端口映射为3308:3306 即你防伪宿主机的3308就是访问容器的3306端口，需要理解下
+- `-p 3308:3306`       宿主机与容器的端口映射为3308:3306 即你访问宿主机的3308就是访问容器的3306端口，需要理解下
 - `-e MYSQL_ROOT_PASSWORD=123456` 容器内的变量名`MYSQL_ROOT_PASSWORD`对应的值为123456 即mysql的root密码为123456
 - `-d` 后台启动
 
 
 #### Redis
-https://hub.docker.com/_/redis
 
 ```bash
 $ docker run --name local-redis -p 6379:6379 -d redis
 ```
-直接执行脚本即可
 
 #### Hbase
-##### pull镜像
-
-`docker pull harisekhon/hbase`
-
-##### 启动脚本
 
 ```bash
+docker pull harisekhon/hbase
+
 docker run -d -h base-server \
         -p 2181:2181 \
         -p 8080:8080 \
@@ -160,60 +158,35 @@ docker run -d -h base-server \
 
 ```
 
-![Hbase用到的端口](http://cdn.wangxc.club/20190716221732.png)
+Hbase用到的端口,可以参考一下[详细教程](https://github.com/vector4wang/spring-boot-quick/blob/master/quick-hbase/README.md)
+启动成功之后我们可以访问`http://localhost:16010/master-status`登录Web界面
 
-hbase对应的端口(harisekhon/hbase 修改了默认端口：)
-```text
-# Stargate 8080 / 8085
-# Thrift 9090 / 9095
-# HMaster 16000 / 16010
-# RS 16201 / 16301
-EXPOSE 2181 8080 8085 9090 9095 16000 16010 16201 16301
+:point_right: [快速实现SpringBoot集成Hbase](https://github.com/vector4wang/spring-boot-quick/tree/master/quick-hbase)
 
-```
-注意客户端要使用的端口号是
-
-##### 设置host
-```text
-127.0.0.1       base-server
-```
-
-webui in http://localhost:16010/master-status
-[快速实现springboot集成Hbase](https://github.com/vector4wang/spring-boot-quick/tree/master/quick-hbase)
 #### Kafka
 考虑到更好的区别这些端口，我这里启动了一个虚拟机，在虚拟机中在用dokcer安装Kafka，过程如下
 
-##### download images
 ```bash
+## pull images
 docker pull wurstmeister/zookeeper
 docker pull wurstmeister/kafka
 docker pull sheepkiller/kafka-manager
-```
 
-
-
-##### run zookepper
-```bash
 docker run -d --name zookeeper --publish 2181:2181 \
   --volume /etc/localtime:/etc/localtime \
   --restart=always \
   wurstmeister/zookeeper
-```
 
 
-##### run kafka
-
-```bash
+## run kafka
 docker run --name kafka \
   -p 9092:9092 \
   --link zookeeper:zookeeper \
   -e KAFKA_ADVERTISED_HOST_NAME=192.168.1.8 \
   -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \
   -d  wurstmeister/kafka  
-```
 
-##### run kafka manager
-```bash
+## run kafka manager
 docker run -d \
   --link zookeeper:zookeeper \
   -p 9000:9000  \
@@ -228,20 +201,28 @@ KAFKA_MANAGER_AUTH_ENABLED: "true"
 KAFKA_MANAGER_USERNAME: username
 KAFKA_MANAGER_PASSWORD: password
 ```
+容器启动成功之后就可以在页面访问`localhost:9000`查看Kafkfa的管理界面。
 
-web ui in `localhost:9000`
 
-
-[快速实现springboot集成Kafka](https://github.com/vector4wang/spring-boot-quick/tree/master/quick-kafka)
+:point_right: [快速实现SpringBoot集成Kafka](https://github.com/vector4wang/spring-boot-quick/tree/master/quick-kafka)
 
 #### 启动服务
+> 以下的操作是在IDEA下完成
 
-将上述部署的几个服务的ip和端口号分别配置在flink-2-hbase和web服务中，然后首先在flink-2-hbase中的根目录执行`mvn clean install`目的是将其打包并放置在本地仓库中，然后再分别启动task目录下的task，直接在idea中右键启动就行了；接着把SchedulerJob启动起来，定时的去结算协同过滤和用户画像所需要的分数;
+1、将上述部署的几个服务的ip和端口号分别配置在flink-2-hbase和web服务中;
 
-然后在idea中打开web项目，等待其自动引入web-flink-hbase生成的jar包之后，最后启动服务就ok了；
+2、在flink-2-hbase中的根目录执行`mvn clean install`，目的是将其打包并放置在本地仓库中;
+
+3、分别启动task目录下的task(直接在idea中右键启动就行了);
+
+4、把SchedulerJob启动起来，定时的去计算协同过滤和用户画像所需要的分数;
+
+5、在idea中打开web项目，等待其自动引入flink-2-hbase生成的jar包之后，再启动服务就ok了；
 
 
-所有的服务启动后，因为没有任何的点击记录，所以没有什么推荐，这里需要你在推荐页面随便点击，等达到一定的历史数据，就能实现实时推荐的效果了
+**注意**： 所有的服务启动后，因为没有任何的点击记录，所以就是随机从数据库取得产品，这里需要你在推荐页面随便点击，等有了一定的历史数据之后，就能实现实时推荐的效果了
+
+
 
 
 ### 6. 下一步工作
