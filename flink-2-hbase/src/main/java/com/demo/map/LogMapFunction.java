@@ -12,7 +12,7 @@ public class LogMapFunction implements MapFunction<String, LogEntity> {
 
     @Override
     public LogEntity map(String s) throws Exception {
-
+        System.out.println(s);
         LogEntity log = LogToEntity.getLog(s);
         if (null != log){
             String rowKey = log.getUserId() + "_" + log.getProductId()+ "_"+ log.getTime();
