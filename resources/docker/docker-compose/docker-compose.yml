@@ -1,0 +1,91 @@
+version: '2.1'
+services:
+  zookeeper:
+    container_name: zk
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"
+
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka:2.12-2.2.1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    expose:
+    - "9093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://192.168.56.103:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_CREATE_TOPICS: "flink:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/recommend/generator.sh:/opt/generator.sh
+
+  hbase:
+    container_name: hbase
+    hostname: docker-linux
+    image: hbase-xinze
+    links:
+      - zookeeper
+    depends_on:
+      - zookeeper 
+    logging:
+      driver: "none"
+    ports:
+      - "16010:16010"
+      - "8080:8080"
+      - "9090:9090"
+      - "16000:16000"
+      - "16020:16020"
+      - "16030:16030"
+    command: ["/wait-for-it.sh", "zookeeper:2181", "-t", "10", "--", "/usr/bin/supervisord"]
+    volumes:
+      - /opt/recommend/hbase_ini.sql:/opt/hbase_ini.sql
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - /opt/recommend/contact.sql:/opt/contact.sql
+      
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    entrypoint: redis-server --appendonly yes
+    restart: always
+
+  flink_jobmanager:
+    image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
+    container_name: flink_jobmanager
+    expose:
+      - "6123"
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+  flink_taskmanager:
+    image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
+    container_name: flink_taskmanager
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    links:
+      - "jobmanager:jobmanager"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
