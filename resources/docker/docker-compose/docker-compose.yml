@@ -66,9 +66,8 @@ services:
     entrypoint: redis-server --appendonly yes
     restart: always
 
-  flink_jobmanager:
+  jobmanager:
     image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
-    container_name: flink_jobmanager
     expose:
       - "6123"
     ports:
@@ -76,9 +75,8 @@ services:
     command: jobmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  flink_taskmanager:
+  taskmanager:
     image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
-    container_name: flink_taskmanager
     expose:
       - "6121"
       - "6122"
