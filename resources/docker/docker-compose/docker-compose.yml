@@ -29,7 +29,7 @@ services:
   hbase:
     container_name: hbase
     hostname: docker-linux
-    image: hbase-xinze
+    image: xinze/hbase
     links:
       - zookeeper
     depends_on:
