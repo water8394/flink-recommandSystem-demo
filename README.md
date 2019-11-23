@@ -115,3 +115,6 @@
 
 详细的部署说明已经写了一篇文章来说明了，按照流程即可运行项目，无需自己搭建任何组件。
 [文章地址](https://xinze.fun/2019/11/19/%E4%BD%BF%E7%94%A8Docker%E9%83%A8%E7%BD%B2Flink%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%A1%B9%E7%9B%AE/)
+
+Hbase部署说明-》[使用Docker搭建伪分布式Hbase(外置Zookeeper)](https://www.jianshu.com/p/3aabe3a152a8)
+Kafka部署说明-》[使用Docker部署Kafka时的网络应该如何配置](https://www.jianshu.com/p/52a505354bbc)
