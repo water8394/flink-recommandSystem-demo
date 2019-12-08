@@ -17,7 +17,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE DATABASE IF EXISTS con;
+CREATE DATABASE IF NOT EXISTS con;
 USE con;
 -- ----------------------------
 -- Table structure for contact
