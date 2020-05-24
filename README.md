@@ -116,5 +116,18 @@
 详细的部署说明已经写了一篇文章来说明了，按照流程即可运行项目，无需自己搭建任何组件。
 [文章地址](https://xinze.fun/2019/11/19/%E4%BD%BF%E7%94%A8Docker%E9%83%A8%E7%BD%B2Flink%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%A1%B9%E7%9B%AE/)
 
-Hbase部署说明-》[使用Docker搭建伪分布式Hbase(外置Zookeeper)](https://www.jianshu.com/p/3aabe3a152a8)
-Kafka部署说明-》[使用Docker部署Kafka时的网络应该如何配置](https://www.jianshu.com/p/52a505354bbc)
+Hbase部署说明->[使用Docker搭建伪分布式Hbase(外置Zookeeper)](https://www.jianshu.com/p/3aabe3a152a8)
+Kafka部署说明->[使用Docker部署Kafka时的网络应该如何配置](https://www.jianshu.com/p/52a505354bbc)
+
+
+### Q & A
+1. 是否一定要使用Docker来部署环境？
+不是的，项目刚开始写的时候都是通过独立的组件来实现功能的。后来为了让大家能够迅速的体验项目，省略搭建过程 才配置了多个Docker环境。所以如果有自己有Kafka 或者 Hbase 的搭建经验，更推荐自搭建的形式，这样更容易解决问题。
+
+2. 部署Docker带来的一系列问题
+包括端口号/连接异常等等问题，多数原因是不同的服务器环境带来的，建议首先检查自己的防火墙等基础设施配置是否能够支持各个组件的连接。
+
+3. 个人广告 / 大数据面试咨询服务
+针对大数据零基础的小白 or 应届生提供的面试咨询 & 简历修改服务。纯沟通向，价格便宜，欢迎打扰～
+
+
