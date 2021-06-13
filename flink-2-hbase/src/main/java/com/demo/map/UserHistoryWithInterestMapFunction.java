@@ -38,6 +38,7 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         int times = 1;
         // 如果用户没有操作 则为state创建值
         if (actionLastTime == null) {
+            state.update(actionThisTime);
             actionLastTime = actionThisTime;
             saveToHBase(logEntity, 1);
         }else{
