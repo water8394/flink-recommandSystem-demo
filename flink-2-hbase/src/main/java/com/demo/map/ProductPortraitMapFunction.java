@@ -21,9 +21,9 @@ public class ProductPortraitMapFunction implements MapFunction<String, String> {
             while (rst.next()){
                 String productId = String.valueOf(log.getProductId());
                 String sex = rst.getString("sex");
-                HbaseClient.increamColumn("prod",productId,"sex",sex);
+                HbaseClient.increaseColumn("prod",productId,"sex",sex);
                 String age = rst.getString("age");
-                HbaseClient.increamColumn("prod",productId,"age", AgeUtil.getAgeType(age));
+                HbaseClient.increaseColumn("prod",productId,"age", AgeUtil.getAgeType(age));
             }
         }
         return null;

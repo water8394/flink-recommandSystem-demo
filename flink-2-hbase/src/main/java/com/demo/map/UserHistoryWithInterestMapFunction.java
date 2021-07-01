@@ -71,7 +71,7 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         if (log != null){
             for (int i = 0; i < times; i++) {
 
-            HbaseClient.increamColumn("u_interest",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
+            HbaseClient.increaseColumn("u_interest",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
             }
 
         }
