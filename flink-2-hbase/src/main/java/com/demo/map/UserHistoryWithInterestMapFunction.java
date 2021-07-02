@@ -38,12 +38,13 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         int times = 1;
         // 如果用户没有操作 则为state创建值
         if (actionLastTime == null) {
-            actionLastTime = actionThisTime;
+            //actionLastTime = actionThisTime;
+            state.update(actionThisTime);
             saveToHBase(logEntity, 1);
         }else{
             times = getTimesByRule(actionLastTime, actionThisTime);
+            saveToHBase(logEntity, times);
         }
-        saveToHBase(logEntity, times);
 
         // 如果用户的操作为3(购物),则清除这个key的state
         if (actionThisTime.getType().equals("3")){
@@ -71,7 +72,7 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         if (log != null){
             for (int i = 0; i < times; i++) {
 
-            HbaseClient.increamColumn("u_interest",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
+            HbaseClient.increaseColumn("u_interest",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
             }
 
         }
