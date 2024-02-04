@@ -7,7 +7,7 @@
   <div align=center><img src="resources/pic/v2.0架构.png" width="100%" height="100%"></div>
 
 - **1.2模块说明**
-
+test123456
 - a.在日志数据模块(flink-2-hbase)中,又主要分为6个Flink任务:
 
   - 用户-产品浏览历史  -> 实现基于协同过滤的推荐逻辑 
