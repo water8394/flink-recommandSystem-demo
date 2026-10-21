@@ -18,7 +18,9 @@ public class TopNRedisSink extends RichSinkFunction<TopProductEntity> {
     @Override
     public void open(Configuration parameters) throws Exception {
         super.open(parameters);
-        jedis = new Jedis(Property.getStrValue("redis.host"));
+        // Jedis 5 treats a single string as a URI, so "localhost" is rejected.
+        // Same host and port RedisClient uses.
+        jedis = new Jedis(Property.getStrValue("redis.host"), Property.getIntValue("redis.port"));
     }
 
     @Override

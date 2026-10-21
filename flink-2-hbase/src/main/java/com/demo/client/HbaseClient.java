@@ -15,15 +15,24 @@ public class HbaseClient {
 
     static {
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.rootdir", Property.getStrValue("hbase.rootdir"));
-        conf.set("hbase.zookeeper.quorum", Property.getStrValue("hbase.zookeeper.quorum"));
-        conf.set("hbase.client.scanner.timeout.period", Property.getStrValue("hbase.client.scanner.timeout.period"));
-        conf.set("hbase.rpc.timeout", Property.getStrValue("hbase.rpc.timeout"));
+        // Skip blank keys. hbase.rootdir in particular must come from the cluster:
+        // config.properties no longer points it at a NameNode this demo does not run.
+        setIfPresent(conf, "hbase.rootdir");
+        setIfPresent(conf, "hbase.zookeeper.quorum");
+        setIfPresent(conf, "hbase.client.scanner.timeout.period");
+        setIfPresent(conf, "hbase.rpc.timeout");
         try {
             conn = ConnectionFactory.createConnection(conf);
             admin = conn.getAdmin();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void setIfPresent(Configuration conf, String key) {
+        String value = Property.getStrValue(key);
+        if (value != null && !value.trim().isEmpty()) {
+            conf.set(key, value.trim());
         }
     }
 

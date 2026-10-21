@@ -17,6 +17,13 @@
     <name>hbase.zookeeper.property.clientPort</name>
     <value>2181</value>
   </property>
+  <!-- The container hostname is localhost so RegionServers advertise localhost
+       to host-side clients. Without this, ZooKeeper also binds 127.0.0.1 only,
+       and the published port 2181 never reaches it. -->
+  <property>
+    <name>hbase.zookeeper.property.clientPortAddress</name>
+    <value>0.0.0.0</value>
+  </property>
   <property>
     <name>hbase.unsafe.stream.capability.enforce</name>
     <value>false</value>

@@ -29,10 +29,10 @@ Default `mvn package` runs unit tests that do not need Kafka, HBase, Redis, or M
 ## Local stack
 
 ```bash
-docker compose -f resources/docker/docker-compose/docker-compose.yml up -d --build
+./scripts/bootstrap.sh
 ```
 
-Details and ports are in [README_EN.md](README_EN.md) and the Chinese [README.md](README.md).
+That starts the compose stack and waits until MySQL, HBase, and Kafka topic `con` are ready. The full path (jobs, sample logs, web app, and the failures people actually hit) is in the Chinese [README.md](README.md) and in [README_EN.md](README_EN.md). Start the site with `./scripts/run-web.sh`, not `mvn spring-boot:run` from the repository root. Do not follow the old external deployment article; that link has been removed.
 
 ## Pull requests
 
