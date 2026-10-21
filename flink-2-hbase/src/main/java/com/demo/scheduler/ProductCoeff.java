@@ -5,6 +5,7 @@ import com.demo.client.MysqlClient;
 import com.demo.client.RedisClient;
 import com.demo.domain.ProductPortraitEntity;
 import com.demo.util.Constants;
+import com.demo.util.Similarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,15 +81,7 @@ public class ProductCoeff {
 	 * @return
 	 */
 	private Double getScore(ProductPortraitEntity product, ProductPortraitEntity target) {
-		double sqrt = Math.sqrt(product.getTotal() + target.getTotal());
-		if (sqrt == 0) {
-			return 0.0;
-		}
-		int total = product.getMan() * target.getMan() + product.getWoman() * target.getWoman()
-				+ product.getAge_10() * target.getAge_10() + product.getAge_20() * target.getAge_20()
-				+ product.getAge_30() * target.getAge_30() + product.getAge_40() * target.getAge_40()
-				+ product.getAge_50() * target.getAge_50() + product.getAge_60() * target.getAge_60();
-		return Math.sqrt(total) / sqrt;
+		return Similarity.productPortraitScore(product, target);
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -1,5 +1,9 @@
 # 商品实时推荐系统
 
+[English](README_EN.md) · [Contributing / 贡献](CONTRIBUTING.md) · [Apache-2.0](LICENSE)
+
+[![CI](https://github.com/water8394/flink-recommandSystem-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/water8394/flink-recommandSystem-demo/actions/workflows/ci.yml)
+
 ### 1. 系统架构  v2.0
 
 - **1.1 系统架构图**
@@ -127,5 +131,26 @@ Kafka部署说明->[使用Docker部署Kafka时的网络应该如何配置](https
 2. 部署Docker带来的一系列问题  <br>
 包括端口号/连接异常等等问题，多数原因是不同的服务器环境带来的，建议首先检查自己的防火墙等基础设施配置是否能够支持各个组件的连接。
 
+### 7. 许可证、构建与本地依赖
+
+本仓库以 [Apache License 2.0](LICENSE) 授权，版权归仓库作者 **water8394 (XInZE)** 所有。
+
+编译和运行需要 **Java 11 及以上**（CI 使用 Temurin 17）。在仓库根目录执行：
+
+```bash
+mvn -B package
+```
+
+该命令会构建 `flink-2-hbase` 与 `web`，并运行不依赖外部服务的单元测试。连接 MySQL、Redis、HBase 的旧测试默认不执行，说明见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+本地依赖（Kafka KRaft、带内置 ZooKeeper 的 HBase、Redis、MySQL、Flink 1.18）：
+
+```bash
+docker compose -f resources/docker/docker-compose/docker-compose.yml up -d --build
+```
+
+宿主机访问 Kafka 使用 `localhost:9092`，与 `web/src/main/resources/application.yml` 和 `flink-2-hbase/src/main/resources/config.properties` 一致。同一 Docker 网络里的地址是 `kafka:19092`。HBase 客户端通过 `localhost:2181` 发现集群，Master 页面在 `localhost:16010`。MySQL 映射到宿主机 `3308`，账号 `root` / `123456`，库名 `con`。
+
+英文说明见 [README_EN.md](README_EN.md)。
 
 

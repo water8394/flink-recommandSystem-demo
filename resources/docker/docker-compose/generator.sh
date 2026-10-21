@@ -1,10 +1,12 @@
 #!/bin/bash
+# Sample producer. Flink jobs and the web module publish and consume topic "con".
+# Inside the compose network the broker is kafka:19092; from the host it is localhost:9092.
 function create_kafka_topic {
-    $KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic $1
+    "$KAFKA_HOME/bin/kafka-topics.sh" --create --if-not-exists --bootstrap-server "${KAFKA_BOOTSTRAP:-kafka:19092}" --replication-factor 1 --partitions 1 --topic "$1"
 }
 function send_messages_to_kafka {
     msg=$(generator_message)
-    echo -e $msg | $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list kafka:9093 --topic $TOPIC
+    echo -e "$msg" | "$KAFKA_HOME/bin/kafka-console-producer.sh" --bootstrap-server "${KAFKA_BOOTSTRAP:-kafka:19092}" --topic "$TOPIC"
 }
 function rand {
     min=$1
@@ -21,7 +23,7 @@ function generator_message {
     echo $msg
 }
 
-TOPIC="log"
+TOPIC="con"
 create_kafka_topic $TOPIC
 while true
 do
