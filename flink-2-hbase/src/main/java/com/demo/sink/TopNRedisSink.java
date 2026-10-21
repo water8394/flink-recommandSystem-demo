@@ -1,25 +1,35 @@
 package com.demo.sink;
 
 import com.demo.domain.TopProductEntity;
-import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommand;
-import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommandDescription;
-import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;
+import com.demo.util.Property;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
+import redis.clients.jedis.Jedis;
 
-public class TopNRedisSink implements RedisMapper<TopProductEntity> {
+/**
+ * Writes a hot-product rank with Redis {@code SET rankName productId}.
+ * Host only: port 6379 and database 0, which is what the previous
+ * {@code FlinkJedisPoolConfig} used when port and database were left commented out.
+ */
+public class TopNRedisSink extends RichSinkFunction<TopProductEntity> {
 
+    private transient Jedis jedis;
 
     @Override
-    public RedisCommandDescription getCommandDescription() {
-        return new RedisCommandDescription(RedisCommand.SET, null);
+    public void open(Configuration parameters) throws Exception {
+        super.open(parameters);
+        jedis = new Jedis(Property.getStrValue("redis.host"));
     }
 
     @Override
-    public String getKeyFromData(TopProductEntity s) {
-        return String.valueOf(s.getRankName());
+    public void invoke(TopProductEntity value, Context context) {
+        jedis.set(String.valueOf(value.getRankName()), String.valueOf(value.getProductId()));
     }
 
     @Override
-    public String getValueFromData(TopProductEntity s) {
-        return String.valueOf(s.getProductId());
+    public void close() {
+        if (jedis != null) {
+            jedis.close();
+        }
     }
 }

@@ -1,89 +1,89 @@
-version: '2.1'
-services:
-  zookeeper:
-    container_name: zk
-    image: wurstmeister/zookeeper:3.4.6
-    ports:
-      - "2181:2181"
+# Local dependencies for the recommendation demo.
+# Kafka runs in KRaft mode (no ZooKeeper). HBase standalone embeds ZooKeeper on port 2181.
+# From the host: Kafka localhost:9092, HBase ZK localhost:2181, Redis localhost:6379, MySQL localhost:3308.
+# From another container: Kafka kafka:19092.
 
+services:
   kafka:
+    image: apache/kafka:3.9.2
     container_name: kafka
-    image: wurstmeister/kafka:2.12-2.2.1
+    hostname: kafka
     ports:
       - "9092:9092"
-    depends_on:
-      - zookeeper
-    expose:
-    - "9093"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://192.168.56.103:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_CREATE_TOPICS: "flink:1:1"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/recommend/generator.sh:/opt/generator.sh
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: CONTROLLER://:29093,PLAINTEXT_HOST://:9092,PLAINTEXT://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT://kafka:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
 
   hbase:
+    build:
+      context: ../hbase
+    image: flink-recommand-hbase:2.6.7
     container_name: hbase
-    hostname: docker-linux
-    image: xinze0803/hbase
-    links:
-      - zookeeper
-    depends_on:
-      - zookeeper 
-    logging:
-      driver: "none"
+    hostname: localhost
     ports:
-      - "16010:16010"
-      - "8080:8080"
-      - "9090:9090"
+      - "2181:2181"
       - "16000:16000"
+      - "16010:16010"
       - "16020:16020"
       - "16030:16030"
-    command: ["/wait-for-it.sh", "zookeeper:2181", "-t", "10", "--", "/usr/bin/supervisord"]
     volumes:
-      - /opt/recommend/hbase_ini.sql:/opt/hbase_ini.sql
+      - ./hbase_ini.sql:/opt/hbase_ini.sql:ro
 
   mysql:
-    image: mysql
+    image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    restart: unless-stopped
     container_name: mysql
+    ports:
+      - "3308:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_ROOT_HOST=%
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: con
     volumes:
-      - /opt/recommend/contact.sql:/opt/contact.sql
-      
+      - ./contact.sql:/docker-entrypoint-initdb.d/01-contact.sql:ro
+
   redis:
-    image: redis
+    image: redis:7.4
     container_name: redis
     ports:
       - "6379:6379"
-    entrypoint: redis-server --appendonly yes
-    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
 
   jobmanager:
-    image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
-    expose:
-      - "6123"
+    image: flink:1.18.1-scala_2.12-java11
+    container_name: flink-jobmanager
     ports:
       - "8081:8081"
     command: jobmanager
     environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+
   taskmanager:
-    image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
-    expose:
-      - "6121"
-      - "6122"
+    image: flink:1.18.1-scala_2.12-java11
+    container_name: flink-taskmanager
     depends_on:
       - jobmanager
     command: taskmanager
-    links:
-      - "jobmanager:jobmanager"
     environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2

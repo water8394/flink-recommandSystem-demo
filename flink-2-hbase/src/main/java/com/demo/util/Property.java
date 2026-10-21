@@ -37,8 +37,9 @@ public class Property {
 	public static Properties getKafkaProperties(String groupId) {
 		Properties properties = new Properties();
 		properties.setProperty("bootstrap.servers", getStrValue("kafka.bootstrap.servers"));
-		properties.setProperty("zookeeper.connect", getStrValue("kafka.zookeeper.connect"));
 		properties.setProperty("group.id", groupId);
+		// kafka-clients 3.x rejects unknown consumer configs. Offsets live on the brokers,
+		// so zookeeper.connect from config.properties is intentionally not copied here.
 		return properties;
 	}
 

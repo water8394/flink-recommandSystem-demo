@@ -33,11 +33,11 @@ public class HbaseClient {
             System.out.println("Table Exists");
         }else{
         System.out.println("Start create table");
-        HTableDescriptor tableDescriptor = new HTableDescriptor(tablename);
+        TableDescriptorBuilder tableDescriptor = TableDescriptorBuilder.newBuilder(tablename);
         for (String columnFamliy : columnFamilies) {
-            HTableDescriptor column = tableDescriptor.addFamily(new HColumnDescriptor(columnFamliy));
+            tableDescriptor.setColumnFamily(ColumnFamilyDescriptorBuilder.of(columnFamliy));
         }
-        admin.createTable(tableDescriptor);
+        admin.createTable(tableDescriptor.build());
         System.out.println("Create Table success");
         }
     }

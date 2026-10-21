@@ -26,7 +26,7 @@ spring:
     timeout: 500
 
   kafka:
-    bootstrap-servers: 192.168.1.7:9092
+    bootstrap-servers: localhost:9092
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer

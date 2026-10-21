@@ -10,7 +10,6 @@ import com.demo.service.ContactService;
 import com.demo.service.ProductService;
 import com.demo.service.RecommandService;
 import com.demo.service.UserScoreService;
-import org.apache.hadoop.hbase.client.coprocessor.BigDecimalColumnInterpreter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,8 +12,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.Date;
 
-import static org.apache.hadoop.hbase.TestChoreService.log;
-
 @Service
 public class KafkaServiceImpl implements KafkaService {
 

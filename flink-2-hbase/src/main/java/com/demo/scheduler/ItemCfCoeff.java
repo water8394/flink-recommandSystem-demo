@@ -1,6 +1,7 @@
 package com.demo.scheduler;
 
 import com.demo.client.HbaseClient;
+import com.demo.util.Similarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,24 +43,15 @@ public class ItemCfCoeff {
     private Double twoItemCfCoeff(String id, String other) throws IOException {
         List<Map.Entry> p1 = HbaseClient.getRow("p_history", id);
         List<Map.Entry> p2 = HbaseClient.getRow("p_history", other);
-
-        int n = p1.size();
-        int m = p2.size();
-        int sum = 0;
-        Double total = Math.sqrt(n * m);
+        List<Object> left = new ArrayList<>();
+        List<Object> right = new ArrayList<>();
         for (Map.Entry entry : p1) {
-            String key = (String) entry.getKey();
-            for (Map.Entry p : p2) {
-                if (key.equals(p.getKey())) {
-                    sum++;
-                }
-            }
+            left.add(entry.getKey());
         }
-        if (total == 0){
-            return 0.0;
+        for (Map.Entry entry : p2) {
+            right.add(entry.getKey());
         }
-        return sum/total;
-
+        return Similarity.itemCfScore(left, right);
     }
 
 

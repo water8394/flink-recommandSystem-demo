@@ -1,7 +1,6 @@
 package com.demo;
 
 import com.demo.client.HbaseClient;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
