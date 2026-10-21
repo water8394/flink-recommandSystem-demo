@@ -20,8 +20,8 @@ public class UserHistoryMapFunction implements MapFunction<String, String> {
     public String map(String s) throws Exception {
         LogEntity log = LogToEntity.getLog(s);
         if (null != log){
-            HbaseClient.increamColumn("u_history",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
-            HbaseClient.increamColumn("p_history",String.valueOf(log.getProductId()),"p",String.valueOf(log.getUserId()));
+            HbaseClient.increaseColumn("u_history",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
+            HbaseClient.increaseColumn("p_history",String.valueOf(log.getProductId()),"p",String.valueOf(log.getUserId()));
         }
         return "";
     }

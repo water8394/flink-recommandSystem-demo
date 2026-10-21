@@ -116,7 +116,7 @@ public class HbaseClient {
      * @param column 列名
      * @throws Exception
      */
-    public static void increamColumn(String tablename, String rowkey, String famliyname,String column) throws Exception {
+    public static void increaseColumn(String tablename, String rowkey, String famliyname,String column) throws Exception {
         String val = getData(tablename, rowkey, famliyname, column);
         int res = 1;
         if (val != null) {

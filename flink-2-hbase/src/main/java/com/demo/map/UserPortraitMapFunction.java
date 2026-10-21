@@ -21,11 +21,11 @@ public class UserPortraitMapFunction implements MapFunction<String, String> {
                 String userId = String.valueOf(log.getUserId());
 
                 String country = rst.getString("country");
-                HbaseClient.increamColumn("user",userId,"country",country);
+                HbaseClient.increaseColumn("user",userId,"country",country);
                 String color = rst.getString("color");
-                HbaseClient.increamColumn("user",userId,"color",color);
+                HbaseClient.increaseColumn("user",userId,"color",color);
                 String style = rst.getString("style");
-                HbaseClient.increamColumn("user",userId,"style",style);
+                HbaseClient.increaseColumn("user",userId,"style",style);
             }
 
         }
