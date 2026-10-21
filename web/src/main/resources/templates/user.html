@@ -46,14 +46,17 @@
                             </div>
                             <div class="row product-action">
                                 <text th:text="${pro.contact.itemName}"></text>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'"
-                                   href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="1"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'"
-                                   href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="2"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'"
-                                   href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="3"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
                             </div>
                         </div>
@@ -79,12 +82,15 @@
                             </div>
                             <div class="row product-action">
                                 <text th:text="${pro.contact.itemName}"></text>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'"
-                                   href=""><img src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'"
-                                   href=""><img src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'"
-                                   href=""><img src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="1"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="2"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="3"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
                             </div>
                         </div>
                     </div>
@@ -109,11 +115,17 @@
                             </div>
                             <div class="row product-action">
                                 <text th:text="${pro.contact.itemName}"></text>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',1);'" href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="1"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/浏览.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',2);'" href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="2"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/收藏.png" style="width: 20px;height: 20px;"></a>
-                                <a th:onclick="'javascript:sendLog('+${userId}+','+${pro.contact.id}+',3);'" href=""><img
+                                <a href="javascript:void(0)"
+                                   th:data-user-id="${userId}" th:data-prod-id="${pro.contact.id}" data-action="3"
+                                   onclick="sendLog(this.getAttribute('data-user-id'), this.getAttribute('data-prod-id'), this.getAttribute('data-action'))"><img
                                         src="../icon/购买.png" style="width: 20px;height: 20px;"></a>
                             </div>
                         </div>

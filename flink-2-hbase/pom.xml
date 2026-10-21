@@ -78,6 +78,12 @@
             <artifactId>flink-connector-kafka</artifactId>
             <version>${flink.kafka.connector.version}</version>
         </dependency>
+        <!-- Kafka connector marks connector-base as provided. The shaded jar needs it for java -cp. -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-base</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
@@ -171,9 +177,6 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>com.google.code.findbugs:jsr305</exclude>
-                                    <exclude>org.slf4j:*</exclude>
-                                    <exclude>log4j:*</exclude>
-                                    <exclude>ch.qos.reload4j:*</exclude>
                                 </excludes>
                             </artifactSet>
                             <filters>

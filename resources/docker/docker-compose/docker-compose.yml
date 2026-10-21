@@ -2,6 +2,12 @@
 # Kafka runs in KRaft mode (no ZooKeeper). HBase standalone embeds ZooKeeper on port 2181.
 # From the host: Kafka localhost:9092, HBase ZK localhost:2181, Redis localhost:6379, MySQL localhost:3308.
 # From another container: Kafka kafka:19092.
+#
+# Flink jobs in this demo read config.properties (localhost). Submit them on the host
+# with scripts/run-flink-jobs.sh. A task running inside jobmanager/taskmanager would
+# resolve localhost to itself and miss Kafka, HBase, Redis, and MySQL.
+# The Flink services below are the cluster UI and an optional place to inspect jobs
+# you submit yourself after changing those addresses.
 
 services:
   kafka:
@@ -13,7 +19,7 @@ services:
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: CONTROLLER://:29093,PLAINTEXT_HOST://:9092,PLAINTEXT://:19092
+      KAFKA_LISTENERS: CONTROLLER://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092,PLAINTEXT://0.0.0.0:19092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT://kafka:19092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
@@ -25,7 +31,40 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_NUM_PARTITIONS: 1
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      KAFKA_HEAP_OPTS: "-Xmx384m -Xms384m"
+    volumes:
+      - ./generator.sh:/opt/generator.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 18
+      start_period: 20s
+    restart: unless-stopped
+
+  kafka-init:
+    image: apache/kafka:3.9.2
+    container_name: kafka-init
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        set -eu
+        bootstrap=kafka:19092
+        for _ in $$(seq 1 30); do
+          if /opt/kafka/bin/kafka-topics.sh --bootstrap-server "$$bootstrap" --list >/dev/null 2>&1; then
+            break
+          fi
+          sleep 2
+        done
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server "$$bootstrap" --create --if-not-exists --topic con --partitions 1 --replication-factor 1
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server "$$bootstrap" --describe --topic con
+    mem_limit: 512m
 
   hbase:
     build:
@@ -39,12 +78,26 @@ services:
       - "16010:16010"
       - "16020:16020"
       - "16030:16030"
+    environment:
+      HBASE_HEAPSIZE: "768"
     volumes:
       - ./hbase_ini.sql:/opt/hbase_ini.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/16010'"]
+      interval: 15s
+      timeout: 5s
+      retries: 24
+      start_period: 40s
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --innodb-buffer-pool-size=128M
+      - --performance-schema=OFF
     restart: unless-stopped
     container_name: mysql
     ports:
@@ -55,13 +108,25 @@ services:
       MYSQL_DATABASE: con
     volumes:
       - ./contact.sql:/docker-entrypoint-initdb.d/01-contact.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 40s
 
   redis:
     image: redis:7.4
     container_name: redis
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
     restart: unless-stopped
 
   jobmanager:
@@ -74,16 +139,27 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 2
+        jobmanager.memory.process.size: 640m
+        taskmanager.numberOfTaskSlots: 8
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8081'"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
 
   taskmanager:
     image: flink:1.18.1-scala_2.12-java11
     container_name: flink-taskmanager
     depends_on:
-      - jobmanager
+      jobmanager:
+        condition: service_healthy
     command: taskmanager
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 2
+        taskmanager.memory.process.size: 1024m
+        taskmanager.numberOfTaskSlots: 8
+    restart: unless-stopped
